@@ -11,6 +11,12 @@ config_version=5
 [application]
 
 config/name="Dungeon Dash"
-run/main_scene="res://scene/game.tscn"
+run/main_scene="res://scene/TurnBasedBattleDemo.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/mode=2

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1pw0q0stl4e6"
-path="res://.godot/imported/Bandit.png-ef34a8db91a7582965d8c92fbee1db90.ctex"
+uid="uid://b1xkpxu87h1m6"
+path="res://.godot/imported/healthbar.png-471c6be8dcfbc1f62d350b14abdbb8fb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bandit.png"
-dest_files=["res://.godot/imported/Bandit.png-ef34a8db91a7582965d8c92fbee1db90.ctex"]
+source_file="res://assets/healthbar.png"
+dest_files=["res://.godot/imported/healthbar.png-471c6be8dcfbc1f62d350b14abdbb8fb.ctex"]
 
 [params]
 

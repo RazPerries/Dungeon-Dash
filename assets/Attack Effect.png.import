@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1pw0q0stl4e6"
-path="res://.godot/imported/Bandit.png-ef34a8db91a7582965d8c92fbee1db90.ctex"
+uid="uid://dtakv7qgj7jxa"
+path="res://.godot/imported/Attack Effect.png-1c8600b68773ca184902bc3f113823e5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Bandit.png"
-dest_files=["res://.godot/imported/Bandit.png-ef34a8db91a7582965d8c92fbee1db90.ctex"]
+source_file="res://assets/Attack Effect.png"
+dest_files=["res://.godot/imported/Attack Effect.png-1c8600b68773ca184902bc3f113823e5.ctex"]
 
 [params]
 

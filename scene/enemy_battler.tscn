@@ -1,0 +1,177 @@
+[gd_scene load_steps=18 format=3 uid="uid://cim7kdu68nv2c"]
+
+[ext_resource type="Script" path="res://scripts/enemy_battler.gd" id="1_ls2vs"]
+[ext_resource type="Texture2D" uid="uid://1pw0q0stl4e6" path="res://assets/Bandit.png" id="1_p8gde"]
+[ext_resource type="Resource" uid="uid://dcqi3e3q7i8qr" path="res://resources/bandit_battler.tres" id="2_8qcmi"]
+[ext_resource type="Texture2D" uid="uid://dtakv7qgj7jxa" path="res://assets/Attack Effect.png" id="2_ors36"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uanpi"]
+atlas = ExtResource("1_p8gde")
+region = Rect2(2838, 516, 258, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6bk3"]
+atlas = ExtResource("1_p8gde")
+region = Rect2(2816, 774, 256, 258)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14i1x"]
+atlas = ExtResource("1_p8gde")
+region = Rect2(2805, 260, 255, 260)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d71wj"]
+atlas = ExtResource("1_p8gde")
+region = Rect2(2816, 1024, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_57rov"]
+atlas = ExtResource("1_p8gde")
+region = Rect2(2550, 1040, 255, 260)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2rqyq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uanpi")
+}],
+"loop": true,
+"name": &"Dash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j6bk3")
+}],
+"loop": true,
+"name": &"Parry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_14i1x")
+}],
+"loop": true,
+"name": &"RESET",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d71wj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_57rov")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_xv4dq"]
+resource_name = "in_turn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TurnIndicator:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.0980392), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0980392)]
+}
+
+[sub_resource type="Animation" id="Animation_8y0hu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TurnIndicator:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2dnk0"]
+_data = {
+"RESET": SubResource("Animation_8y0hu"),
+"in_turn": SubResource("Animation_xv4dq")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqvdm"]
+atlas = ExtResource("2_ors36")
+region = Rect2(2840, 280, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7u6e"]
+atlas = ExtResource("2_ors36")
+region = Rect2(2840, 530, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6lmy"]
+atlas = ExtResource("2_ors36")
+region = Rect2(2855, 785, 200, 200)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_unls0"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"RESET",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqvdm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7u6e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b6lmy")
+}],
+"loop": true,
+"name": &"play",
+"speed": 5.0
+}]
+
+[node name="EnemyBattler" type="Node2D" groups=["EnemyBattler"]]
+script = ExtResource("1_ls2vs")
+stats_resource = ExtResource("2_8qcmi")
+
+[node name="Animations" type="AnimatedSprite2D" parent="."]
+position = Vector2(56, 87)
+scale = Vector2(0.722353, 0.722353)
+sprite_frames = SubResource("SpriteFrames_2rqyq")
+animation = &"RESET"
+
+[node name="TurnIndicator" type="Panel" parent="."]
+offset_left = -18.0
+offset_top = -39.0
+offset_right = 127.0
+offset_bottom = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="TurnIndicatorAnimation" type="AnimationPlayer" parent="TurnIndicator"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_2dnk0")
+}
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -6.0
+offset_top = -33.0
+offset_right = 114.0
+offset_bottom = -6.0
+metadata/_edit_use_anchors_ = true
+
+[node name="SelectTargetButton" type="Button" parent="."]
+offset_left = 7.0
+offset_top = 183.0
+offset_right = 96.0
+offset_bottom = 233.0
+text = "Select"
+
+[node name="HitFX" type="AnimatedSprite2D" parent="."]
+position = Vector2(-48, 86)
+scale = Vector2(0.445, 0.445)
+sprite_frames = SubResource("SpriteFrames_unls0")
+animation = &"RESET"
