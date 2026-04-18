@@ -5,7 +5,8 @@ extends Node2D
 @onready var health_bar : ProgressBar = $HealthBar
 @onready var turn_indicator_animation: AnimationPlayer = $TurnIndicator/TurnIndicatorAnimation
 @onready var animation_player: AnimatedSprite2D = $Animations
-@onready var hit_fx_animation: AnimatedSprite2D = $HitFX
+@onready var hit_fx_animation: AnimationPlayer = $HitFX/HitFXAnimation
+
 
 var current_hp : int
 
@@ -44,7 +45,7 @@ func _play_attack_anim() -> void:
 	animation_player.play("attack")
 	
 func _get_attack_damage() -> int:
-	return stats_resource.max_damage
+	return stats_resource.attack_damage
 	
 func play_hit_fx_anim() -> void:
 	hit_fx_animation.play("play")

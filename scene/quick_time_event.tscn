@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://cehbrwagox6qf"]
+
+[ext_resource type="Script" path="res://scripts/qte_bar.gd" id="1_jwsvp"]
+[ext_resource type="Texture2D" uid="uid://bbgi8tl7kn2rj" path="res://assets/quick time events.png" id="1_sqt4f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5skl"]
+atlas = ExtResource("1_sqt4f")
+region = Rect2(512, 1624, 2272, 856)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_euvdl"]
+atlas = ExtResource("1_sqt4f")
+region = Rect2(880, 1216, 184, 184)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c3qq"]
+atlas = ExtResource("1_sqt4f")
+region = Rect2(1960, 568, 168, 864)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0yr62"]
+atlas = ExtResource("1_sqt4f")
+region = Rect2(888, 664, 168, 176)
+
+[node name="quick_time_event" type="Node2D"]
+script = ExtResource("1_jwsvp")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(322.813, 120)
+scale = Vector2(0.3, 0.3)
+texture = SubResource("AtlasTexture_x5skl")
+
+[node name="QTE Circle" type="Sprite2D" parent="."]
+position = Vector2(60, 112)
+scale = Vector2(0.3, 0.3)
+texture = SubResource("AtlasTexture_euvdl")
+
+[node name="QTE" type="Sprite2D" parent="."]
+position = Vector2(705, 118)
+scale = Vector2(0.3, 0.3)
+texture = SubResource("AtlasTexture_1c3qq")
+
+[node name="QTE Pressed" type="Sprite2D" parent="."]
+position = Vector2(60, 113)
+scale = Vector2(0.3, 0.3)
+texture = SubResource("AtlasTexture_0yr62")
+
+[node name="QTE Start" type="Marker2D" parent="."]
+position = Vector2(705, 114)
+
+[node name="QTE Hit Early" type="Marker2D" parent="."]
+position = Vector2(86, 114)
+
+[node name="QTE Hit Late" type="Marker2D" parent="."]
+position = Vector2(35, 114)
+
+[node name="QTE Miss" type="Marker2D" parent="."]
+position = Vector2(-15, 114)

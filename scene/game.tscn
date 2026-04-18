@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3 uid="uid://o8rdmgtldoqe"]
+
+[ext_resource type="Script" path="res://scripts/battle_manager.gd" id="1_ptdwn"]
+[ext_resource type="Texture2D" uid="uid://d3pviiy6vw63l" path="res://assets/BackGroundREVAMP.png" id="2_ig5n6"]
+[ext_resource type="PackedScene" uid="uid://d3d3c4qbsswhu" path="res://scene/player_battler.tscn" id="3_ab74p"]
+[ext_resource type="PackedScene" uid="uid://cim7kdu68nv2c" path="res://scene/enemy_battler.tscn" id="4_qjj2e"]
+[ext_resource type="PackedScene" uid="uid://cehbrwagox6qf" path="res://scene/quick_time_event.tscn" id="5_qy41t"]
+
+[node name="TurnBasedBattleDemo" type="Node"]
+script = ExtResource("1_ptdwn")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+z_index = 1
+position = Vector2(1327, 576)
+
+[node name="BackGroundRevamp" type="Sprite2D" parent="."]
+position = Vector2(1328, 576.063)
+scale = Vector2(0.710833, 0.596875)
+texture = ExtResource("2_ig5n6")
+
+[node name="PlayerBattler" parent="." instance=ExtResource("3_ab74p")]
+position = Vector2(1137, 585)
+scale = Vector2(0.331111, 0.331111)
+
+[node name="EnemyBattler" parent="." instance=ExtResource("4_qjj2e")]
+position = Vector2(1489, 583)
+scale = Vector2(0.331111, 0.331111)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="TurnActionButtons" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = 1251.0
+offset_top = 696.0
+offset_right = 1410.0
+offset_bottom = 736.0
+
+[node name="AttackButton" type="Button" parent="CanvasLayer/TurnActionButtons"]
+layout_mode = 2
+text = "Attack"
+
+[node name="SkipTurnButton" type="Button" parent="CanvasLayer/TurnActionButtons"]
+layout_mode = 2
+text = "Skip"
+
+[node name="BraceButton" type="Button" parent="CanvasLayer/TurnActionButtons"]
+layout_mode = 2
+text = "Brace"
+
+[node name="BattleEndPanel" type="Panel" parent="CanvasLayer"]
+offset_left = 1220.0
+offset_top = 412.0
+offset_right = 1442.0
+offset_bottom = 452.0
+
+[node name="BattleEndText" type="RichTextLabel" parent="CanvasLayer/BattleEndPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.59
+anchor_top = 2.709
+anchor_right = 0.59
+anchor_bottom = 2.709
+offset_left = -97.98
+offset_top = -102.36
+offset_right = 67.02
+offset_bottom = -69.36
+text = "Battle End Message"
+
+[node name="QuickTimeEvent" parent="." instance=ExtResource("5_qy41t")]
+position = Vector2(1025, 678)
+scale = Vector2(0.304043, 0.304043)

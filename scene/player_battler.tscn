@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/player_battler.gd" id="1_8p3lj"]
 [ext_resource type="Resource" uid="uid://dukdlv67ofthw" path="res://resources/player_battler.tres" id="2_bp1e3"]
 [ext_resource type="Texture2D" uid="uid://b6vwdjjtfe7ib" path="res://assets/Player.png" id="3_a2tfs"]
-[ext_resource type="Texture2D" uid="uid://dtakv7qgj7jxa" path="res://assets/Attack Effect.png" id="4_66c71"]
+[ext_resource type="Texture2D" uid="uid://bocbqclp435tc" path="res://assets/Attack Effect REVAMP.png" id="4_t8hkw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rg8ce"]
 atlas = ExtResource("3_a2tfs")
@@ -87,21 +87,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="Animation" id="Animation_xv4dq"]
-resource_name = "in_turn"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TurnIndicator:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.5, 0.8, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0.0980392), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0980392)]
-}
-
 [sub_resource type="Animation" id="Animation_8y0hu"]
 length = 0.001
 tracks/0/type = "value"
@@ -117,45 +102,90 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_xv4dq"]
+resource_name = "in_turn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TurnIndicator:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.0980392), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0.0980392)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2dnk0"]
 _data = {
 "RESET": SubResource("Animation_8y0hu"),
 "in_turn": SubResource("Animation_xv4dq")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rqvdm"]
-atlas = ExtResource("4_66c71")
-region = Rect2(2840, 280, 200, 200)
+[sub_resource type="AtlasTexture" id="AtlasTexture_w42t4"]
+atlas = ExtResource("4_t8hkw")
+region = Rect2(256, 0, 768, 512)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_v7u6e"]
-atlas = ExtResource("4_66c71")
-region = Rect2(2840, 530, 200, 200)
+[sub_resource type="Animation" id="Animation_4wi8x"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b6lmy"]
-atlas = ExtResource("4_66c71")
-region = Rect2(2855, 785, 200, 200)
+[sub_resource type="Animation" id="Animation_pwpvc"]
+resource_name = "play"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 5]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 0.466667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_1pp8m"]
-animations = [{
-"frames": [],
-"loop": true,
-"name": &"RESET",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rqvdm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v7u6e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b6lmy")
-}],
-"loop": true,
-"name": &"play",
-"speed": 5.0
-}]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wo7jg"]
+_data = {
+"RESET": SubResource("Animation_4wi8x"),
+"play": SubResource("Animation_pwpvc")
+}
 
 [node name="PlayerBattler" type="Node2D" groups=["PlayerBattler"]]
 position = Vector2(24, 39)
@@ -188,8 +218,15 @@ offset_right = 114.0
 offset_bottom = -6.0
 metadata/_edit_use_anchors_ = true
 
-[node name="HitFX" type="AnimatedSprite2D" parent="."]
-position = Vector2(158, 66)
-scale = Vector2(0.56, 0.56)
-sprite_frames = SubResource("SpriteFrames_1pp8m")
-animation = &"RESET"
+[node name="HitFX" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(2, -57)
+texture = SubResource("AtlasTexture_w42t4")
+centered = false
+hframes = 3
+vframes = 2
+
+[node name="HitFXAnimation" type="AnimationPlayer" parent="HitFX"]
+libraries = {
+"": SubResource("AnimationLibrary_wo7jg")
+}

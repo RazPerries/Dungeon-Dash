@@ -7,6 +7,6 @@ enum BattlerType {
 }
 @export var type : BattlerType
 @export var max_hp : int
-@export var min_damage : int
-@export var max_damage : int
-@export var turn_speed : int # Determines turn order
+@export var defense : int #
+@export var attack_damage : int # The basic attack damage
+@export var turn_speed : int # Determines turn order (Lower = Faster)

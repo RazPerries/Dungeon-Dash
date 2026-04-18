@@ -3,6 +3,7 @@ extends Node
 @onready var turn_action_buttons: HBoxContainer = $CanvasLayer/TurnActionButtons
 @onready var skip_turn_button: Button =$CanvasLayer/TurnActionButtons/SkipTurnButton
 @onready var attack_button: Button = $CanvasLayer/TurnActionButtons/AttackButton
+@onready var brace_button: Button = $CanvasLayer/TurnActionButtons/BraceButton
 @onready var battle_end_panel: Panel = $CanvasLayer/BattleEndPanel
 @onready var battle_end_text: RichTextLabel = $CanvasLayer/BattleEndPanel/BattleEndText
 
@@ -25,6 +26,7 @@ func _ready() -> void:
 	all_battlers.sort_custom(_sort_turn_order_ascending)
 	
 	skip_turn_button.pressed.connect(_next_turn)
+	brace_button.pressed.connect(_next_turn)
 	attack_button.pressed.connect(_show_target_buttons)
 	
 	for p in player_battlers:
