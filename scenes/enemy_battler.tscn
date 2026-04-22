@@ -1,35 +1,43 @@
-[gd_scene load_steps=18 format=3 uid="uid://cim7kdu68nv2c"]
+[gd_scene load_steps=20 format=3 uid="uid://cim7kdu68nv2c"]
 
 [ext_resource type="Script" path="res://scripts/enemy_battler.gd" id="1_ls2vs"]
-[ext_resource type="Texture2D" uid="uid://1pw0q0stl4e6" path="res://assets/Bandit.png" id="1_p8gde"]
+[ext_resource type="Texture2D" uid="uid://csnbd0b4g2xqw" path="res://assets/Bandit.png" id="1_p8gde"]
 [ext_resource type="Resource" uid="uid://dcqi3e3q7i8qr" path="res://resources/bandit_battler.tres" id="2_8qcmi"]
 [ext_resource type="Texture2D" uid="uid://bocbqclp435tc" path="res://assets/Attack Effect REVAMP.png" id="4_f0ncq"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uanpi"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ic5ks"]
 atlas = ExtResource("1_p8gde")
-region = Rect2(2838, 516, 258, 258)
+region = Rect2(2816, 256, 256, 256)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_j6bk3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_03fv5"]
 atlas = ExtResource("1_p8gde")
-region = Rect2(2816, 774, 256, 258)
+region = Rect2(2816, 512, 256, 256)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_14i1x"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_oa77w"]
 atlas = ExtResource("1_p8gde")
-region = Rect2(2805, 260, 255, 260)
+region = Rect2(2560, 512, 256, 256)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_d71wj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vh1s"]
 atlas = ExtResource("1_p8gde")
-region = Rect2(2816, 1024, 256, 256)
+region = Rect2(2816, 0, 256, 256)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_57rov"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_i32gd"]
 atlas = ExtResource("1_p8gde")
-region = Rect2(2550, 1040, 255, 260)
+region = Rect2(2816, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snp64"]
+atlas = ExtResource("1_p8gde")
+region = Rect2(2560, 768, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tgbvp"]
+atlas = ExtResource("1_p8gde")
+region = Rect2(2304, 768, 256, 256)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2rqyq"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uanpi")
+"texture": SubResource("AtlasTexture_ic5ks")
 }],
 "loop": true,
 "name": &"Dash",
@@ -37,7 +45,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_j6bk3")
+"texture": SubResource("AtlasTexture_03fv5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oa77w")
 }],
 "loop": true,
 "name": &"Parry",
@@ -45,7 +56,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_14i1x")
+"texture": SubResource("AtlasTexture_6vh1s")
 }],
 "loop": true,
 "name": &"RESET",
@@ -53,10 +64,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_d71wj")
+"texture": SubResource("AtlasTexture_i32gd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_57rov")
+"texture": SubResource("AtlasTexture_snp64")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tgbvp")
 }],
 "loop": true,
 "name": &"attack",
@@ -164,20 +178,21 @@ _data = {
 }
 
 [node name="EnemyBattler" type="Node2D" groups=["EnemyBattler"]]
+position = Vector2(0, -2)
 script = ExtResource("1_ls2vs")
 stats_resource = ExtResource("2_8qcmi")
 
 [node name="Animations" type="AnimatedSprite2D" parent="."]
-position = Vector2(56, 87)
+position = Vector2(4.10001, -11)
 scale = Vector2(0.722353, 0.722353)
 sprite_frames = SubResource("SpriteFrames_2rqyq")
-animation = &"attack"
+animation = &"RESET"
 
 [node name="TurnIndicator" type="Panel" parent="."]
-offset_left = -18.0
-offset_top = -39.0
-offset_right = 127.0
-offset_bottom = 1.0
+offset_left = -73.9
+offset_top = -137.0
+offset_right = 71.1
+offset_bottom = -97.0
 metadata/_edit_use_anchors_ = true
 
 [node name="TurnIndicatorAnimation" type="AnimationPlayer" parent="TurnIndicator"]
@@ -187,18 +202,19 @@ libraries = {
 }
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = -6.0
-offset_top = -33.0
-offset_right = 114.0
-offset_bottom = -6.0
+offset_left = -60.9
+offset_top = -130.0
+offset_right = 59.1
+offset_bottom = -103.0
 metadata/_edit_use_anchors_ = true
 
 [node name="SelectTargetButton" type="Button" parent="."]
-offset_left = 7.0
-offset_top = 183.0
-offset_right = 96.0
-offset_bottom = 233.0
+offset_left = -41.0
+offset_top = 86.0
+offset_right = 41.0
+offset_bottom = 117.0
 text = "Select"
+metadata/_edit_use_anchors_ = true
 
 [node name="HitFX2" type="Sprite2D" parent="."]
 visible = false

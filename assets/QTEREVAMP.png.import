@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8dere3nfxdxs"
-path="res://.godot/imported/BanditREVAMP.png-31341140c181f027dd9ef269f0d5e390.ctex"
+uid="uid://hdeen6q6upp5"
+path="res://.godot/imported/QTEREVAMP.png-0986fd58ccee7f0eb909b28904e12c30.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/BanditREVAMP.png"
-dest_files=["res://.godot/imported/BanditREVAMP.png-31341140c181f027dd9ef269f0d5e390.ctex"]
+source_file="res://assets/QTEREVAMP.png"
+dest_files=["res://.godot/imported/QTEREVAMP.png-0986fd58ccee7f0eb909b28904e12c30.ctex"]
 
 [params]
 

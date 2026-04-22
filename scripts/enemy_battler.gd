@@ -13,6 +13,7 @@ var current_hp : int
 signal be_selected(this_target: Node2D)
 signal dead(this_enemy: Node2D)
 signal deal_damage(damage: int)
+signal update_health
 
 func _ready() -> void:
 	select_target_button.hide()
@@ -27,6 +28,7 @@ func _ready() -> void:
 func _update_health_bar() -> void:
 	health_bar.max_value = stats_resource.max_hp
 	health_bar.value = current_hp
+	update_health.emit()
 	
 func start_turn() -> void:
 	turn_indicator_animation.play("in_turn")

@@ -6,6 +6,6 @@
 script = ExtResource("1_ep23a")
 type = 0
 max_hp = 400
-defense = 100
+defense = 0
 attack_damage = 100
 turn_speed = 15

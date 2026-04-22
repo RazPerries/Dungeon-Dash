@@ -1,0 +1,357 @@
+[gd_scene load_steps=16 format=3 uid="uid://o8rdmgtldoqe"]
+
+[ext_resource type="Script" path="res://scripts/battle_manager.gd" id="1_ptdwn"]
+[ext_resource type="Texture2D" uid="uid://dmrca81atyrg0" path="res://assets/BackGroundREVAMP.png" id="2_ig5n6"]
+[ext_resource type="PackedScene" uid="uid://d3d3c4qbsswhu" path="res://scenes/player_battler.tscn" id="3_ab74p"]
+[ext_resource type="PackedScene" uid="uid://cim7kdu68nv2c" path="res://scenes/enemy_battler.tscn" id="4_qjj2e"]
+[ext_resource type="Texture2D" uid="uid://hdeen6q6upp5" path="res://assets/QTEREVAMP.png" id="5_o1ep4"]
+[ext_resource type="Texture2D" uid="uid://ckxp5b7pfxdvx" path="res://assets/QTE.png" id="6_k41lh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stvwr"]
+bg_color = Color(0.518933, 0, 0.042894, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bdbuq"]
+bg_color = Color(0.0647377, 0.612835, 0.0693551, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jf3kp"]
+atlas = ExtResource("5_o1ep4")
+region = Rect2(176, 288, 544, 312)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3urkh"]
+atlas = ExtResource("5_o1ep4")
+region = Rect2(38, 465, 40, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ag12g"]
+atlas = ExtResource("5_o1ep4")
+region = Rect2(87, 463, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ik03x"]
+atlas = ExtResource("5_o1ep4")
+region = Rect2(85, 503, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfihp"]
+atlas = ExtResource("5_o1ep4")
+region = Rect2(87, 421, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovaxq"]
+atlas = ExtResource("5_o1ep4")
+region = Rect2(268, 198, 45, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0jlle"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ag12g")
+}],
+"loop": true,
+"name": &"Block",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ik03x")
+}],
+"loop": true,
+"name": &"Evade",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sfihp")
+}],
+"loop": true,
+"name": &"Parry",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovaxq")
+}],
+"loop": true,
+"name": &"RESET",
+"speed": 5.0
+}]
+
+[node name="TurnBasedBattleDemo" type="Node"]
+script = ExtResource("1_ptdwn")
+
+[node name="BackGroundRevamp" type="Sprite2D" parent="."]
+position = Vector2(448.641, 299.117)
+scale = Vector2(0.994132, 0.999609)
+texture = ExtResource("2_ig5n6")
+
+[node name="PlayerBattler" parent="." instance=ExtResource("3_ab74p")]
+position = Vector2(160, 173)
+scale = Vector2(0.759252, 0.759252)
+
+[node name="EnemyBattler" parent="." instance=ExtResource("4_qjj2e")]
+position = Vector2(733, 174)
+scale = Vector2(0.97111, 0.97111)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="BattleEndPanel" type="Panel" parent="CanvasLayer"]
+offset_left = 337.0
+offset_top = 109.0
+offset_right = 559.0
+offset_bottom = 149.0
+
+[node name="BattleEndText" type="RichTextLabel" parent="CanvasLayer/BattleEndPanel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.59
+anchor_top = 2.709
+anchor_right = 0.59
+anchor_bottom = 2.709
+offset_left = -97.98
+offset_top = -102.36
+offset_right = 67.02
+offset_bottom = -69.36
+text = "Battle End Message"
+
+[node name="Player Actions" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = 97.0
+offset_right = 175.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="Basic Actions" type="VBoxContainer" parent="CanvasLayer/Player Actions"]
+layout_mode = 2
+
+[node name="Action Label" type="Label" parent="CanvasLayer/Player Actions/Basic Actions"]
+layout_mode = 2
+text = "Basic Actions:"
+
+[node name="Basic Attack Button" type="Button" parent="CanvasLayer/Player Actions/Basic Actions"]
+layout_mode = 2
+text = "Basic Attack"
+
+[node name="Brace Button" type="Button" parent="CanvasLayer/Player Actions/Basic Actions"]
+layout_mode = 2
+text = "Brace"
+
+[node name="Skills" type="VBoxContainer" parent="CanvasLayer/Player Actions"]
+layout_mode = 2
+
+[node name="Skill Label" type="Label" parent="CanvasLayer/Player Actions/Skills"]
+layout_mode = 2
+text = "Attack Skills:"
+
+[node name="Triple Swipe Button" type="Button" parent="CanvasLayer/Player Actions/Skills"]
+layout_mode = 2
+text = "Triple Swipe"
+
+[node name="Charge Attack Button" type="Button" parent="CanvasLayer/Player Actions/Skills"]
+layout_mode = 2
+text = "Charge Attack"
+
+[node name="Double Strike Button" type="Button" parent="CanvasLayer/Player Actions/Skills"]
+layout_mode = 2
+text = "Double Strike"
+
+[node name="Abilities" type="VBoxContainer" parent="CanvasLayer/Player Actions"]
+visible = false
+layout_mode = 2
+
+[node name="Ability Label" type="Label" parent="CanvasLayer/Player Actions/Abilities"]
+layout_mode = 2
+text = "Abilities:"
+
+[node name="Heal Button" type="Button" parent="CanvasLayer/Player Actions/Abilities"]
+layout_mode = 2
+text = "Heal"
+
+[node name="Haste Button" type="Button" parent="CanvasLayer/Player Actions/Abilities"]
+layout_mode = 2
+text = "Haste"
+
+[node name="ATK UP Button" type="Button" parent="CanvasLayer/Player Actions/Abilities"]
+layout_mode = 2
+text = "ATK up"
+
+[node name="Player Health" type="VBoxContainer" parent="CanvasLayer"]
+offset_left = 17.0
+offset_top = 304.0
+offset_right = 217.0
+offset_bottom = 398.0
+
+[node name="Player Name" type="Label" parent="CanvasLayer/Player Health"]
+layout_mode = 2
+text = "Player"
+
+[node name="Player Health Bar" type="ProgressBar" parent="CanvasLayer/Player Health"]
+custom_minimum_size = Vector2(200, 32)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_stvwr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bdbuq")
+value = 50.0
+show_percentage = false
+
+[node name="Player HP Label" type="Label" parent="CanvasLayer/Player Health/Player Health Bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -11.5
+offset_right = 41.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 50/100"
+
+[node name="Self Use Button" type="Button" parent="CanvasLayer/Player Health"]
+visible = false
+layout_mode = 2
+text = "Use On Self"
+
+[node name="Player Status Effect Label" type="VBoxContainer" parent="CanvasLayer"]
+visible = false
+offset_left = 23.0
+offset_top = 420.0
+offset_right = 132.0
+offset_bottom = 524.0
+
+[node name="Player Status Label" type="Label" parent="CanvasLayer/Player Status Effect Label"]
+layout_mode = 2
+text = "Status Effects:"
+
+[node name="Player Effect 1" type="Label" parent="CanvasLayer/Player Status Effect Label"]
+layout_mode = 2
+text = "Haste"
+
+[node name="Player Effect 2" type="Label" parent="CanvasLayer/Player Status Effect Label"]
+layout_mode = 2
+text = "ATK up"
+
+[node name="Player Effect 3" type="Label" parent="CanvasLayer/Player Status Effect Label"]
+layout_mode = 2
+text = "Haste"
+
+[node name="Enemy Health" type="VBoxContainer" parent="CanvasLayer"]
+offset_left = 679.0
+offset_top = 304.0
+offset_right = 879.0
+offset_bottom = 398.0
+
+[node name="Enemy Name" type="Label" parent="CanvasLayer/Enemy Health"]
+layout_mode = 2
+text = "Enemy"
+
+[node name="Enemy Health Bar" type="ProgressBar" parent="CanvasLayer/Enemy Health"]
+custom_minimum_size = Vector2(200, 32)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_stvwr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bdbuq")
+value = 50.0
+show_percentage = false
+
+[node name="Enemy HP Label" type="Label" parent="CanvasLayer/Enemy Health/Enemy Health Bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -11.5
+offset_right = 41.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "HP: 50/100"
+
+[node name="Enemy Use Button" type="Button" parent="CanvasLayer/Enemy Health"]
+visible = false
+layout_mode = 2
+text = "Use Against Enemy"
+
+[node name="Enemy Status Effect Label" type="VBoxContainer" parent="CanvasLayer"]
+visible = false
+offset_left = 679.0
+offset_top = 420.0
+offset_right = 879.0
+offset_bottom = 524.0
+
+[node name="Enemy Status Label" type="Label" parent="CanvasLayer/Enemy Status Effect Label"]
+layout_mode = 2
+text = "Status Effects:"
+
+[node name="Enemy Effect 1" type="Label" parent="CanvasLayer/Enemy Status Effect Label"]
+layout_mode = 2
+text = "Haste"
+
+[node name="Enemy Effect 2" type="Label" parent="CanvasLayer/Enemy Status Effect Label"]
+layout_mode = 2
+text = "ATK up"
+
+[node name="Enemy Effect 3" type="Label" parent="CanvasLayer/Enemy Status Effect Label"]
+layout_mode = 2
+text = "Haste"
+
+[node name="Cancel Action" type="HBoxContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = 27.0
+offset_right = 126.0
+offset_bottom = 67.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Selected Label" type="Label" parent="CanvasLayer/Cancel Action"]
+layout_mode = 2
+text = "Using:"
+
+[node name="Action Name" type="Label" parent="CanvasLayer/Cancel Action"]
+layout_mode = 2
+text = "[Ability]"
+
+[node name="Cancel Action Button" type="Button" parent="CanvasLayer/Cancel Action"]
+layout_mode = 2
+text = "Cancel Action"
+
+[node name="QTEBackground" type="Sprite2D" parent="."]
+position = Vector2(448, 447)
+scale = Vector2(0.823718, 0.823718)
+texture = SubResource("AtlasTexture_jf3kp")
+
+[node name="Player_QTE" type="Sprite2D" parent="."]
+position = Vector2(258, 422)
+texture = SubResource("AtlasTexture_3urkh")
+
+[node name="QTE_Pressed" type="AnimatedSprite2D" parent="."]
+position = Vector2(257, 423)
+sprite_frames = SubResource("SpriteFrames_0jlle")
+animation = &"Block"
+
+[node name="QTE" type="Sprite2D" parent="."]
+position = Vector2(544, 423)
+texture = ExtResource("6_k41lh")
+
+[node name="QTE Start" type="Marker2D" parent="."]
+position = Vector2(752, 423)
+
+[node name="QTE Hit Early" type="Marker2D" parent="."]
+position = Vector2(278, 423)
+
+[node name="QTE Hit Late" type="Marker2D" parent="."]
+position = Vector2(239, 423)
+
+[node name="QTE Miss" type="Marker2D" parent="."]
+position = Vector2(190, 423)
