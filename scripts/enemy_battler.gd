@@ -33,7 +33,7 @@ func _update_health_bar() -> void:
 func start_turn() -> void:
 	turn_indicator_animation.play("in_turn")
 	_play_attack_anim()
-	await get_tree().create_timer(0.6).timeout
+	await get_tree().create_timer(0.2).timeout
 	deal_damage.emit(_get_attack_damage())
 
 func stop_turn() -> void:

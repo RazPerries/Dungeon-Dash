@@ -45,46 +45,23 @@ func stop_turn() -> void:
 	hit_fx_animation.play("RESET")
 	
 func start_attacking(enemy_target: Node2D, attack) -> void:
-	match attack:
-		"basic":
-			_play_attack_anim()
-			await get_tree().create_timer(0.6).timeout
-			enemy_target.play_hit_fx_anim()
-			await get_tree().create_timer(0.5).timeout
-			enemy_target.be_damaged(_get_attack_damage())
-			await get_tree().create_timer(0.1).timeout
-			_stop_anim()
-			turn_ended.emit()
-		"triple_swipe":
-			_play_attack_anim()
-			await get_tree().create_timer(0.6).timeout
-			enemy_target.play_hit_fx_anim()
-			await get_tree().create_timer(0.5).timeout
-			enemy_target.be_damaged(_get_attack_damage() * 0.3)
-			await get_tree().create_timer(0.1).timeout
-			enemy_target.be_damaged(_get_attack_damage() * 0.3)
-			await get_tree().create_timer(0.1).timeout
-			enemy_target.be_damaged(_get_attack_damage() * 0.3)
-			_stop_anim()
-			turn_ended.emit()
-		"charge_attack":
-			_play_attack_anim()
-			await get_tree().create_timer(1).timeout
-			enemy_target.play_hit_fx_anim()
-			await get_tree().create_timer(0.5).timeout
-			enemy_target.be_damaged(_get_attack_damage() * 2)
-			_stop_anim()
-			turn_ended.emit()
-		"double_strike":
-			_play_attack_anim()
-			await get_tree().create_timer(0.3).timeout
-			enemy_target.play_hit_fx_anim()
-			await get_tree().create_timer(0.5).timeout
-			enemy_target.be_damaged(_get_attack_damage() * 0.5)
-			await get_tree().create_timer(0.1).timeout
-			enemy_target.be_damaged(_get_attack_damage() * 0.5)
-			_stop_anim()
-			turn_ended.emit()
+	_play_attack_anim()
+	await get_tree().create_timer(0.2).timeout
+	enemy_target.play_hit_fx_anim()
+	await get_tree().create_timer(0.2).timeout
+	enemy_target.be_damaged(_get_attack_damage() * attack)
+	print("Dealing ", _get_attack_damage() * attack)
+	_stop_anim()
+
+func basic_attack(enemy_target: Node2D) -> void:
+	_play_attack_anim()
+	await get_tree().create_timer(0.2).timeout
+	enemy_target.play_hit_fx_anim()
+	await get_tree().create_timer(0.2).timeout
+	enemy_target.be_damaged(_get_attack_damage())
+	print("Dealing ", _get_attack_damage())
+	_stop_anim()
+	turn_ended.emit()
 	
 func start_brace() -> void:
 	_play_block_anim()

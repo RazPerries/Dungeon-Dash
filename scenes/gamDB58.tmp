@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://o8rdmgtldoqe"]
+[gd_scene load_steps=16 format=3 uid="uid://o8rdmgtldoqe"]
 
 [ext_resource type="Script" path="res://scripts/battle_manager.gd" id="1_ptdwn"]
 [ext_resource type="Texture2D" uid="uid://dmrca81atyrg0" path="res://assets/BackGroundREVAMP.png" id="2_ig5n6"]
@@ -20,9 +20,6 @@ region = Rect2(176, 288, 544, 312)
 [sub_resource type="AtlasTexture" id="AtlasTexture_3urkh"]
 atlas = ExtResource("5_o1ep4")
 region = Rect2(38, 465, 40, 39)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_180q5"]
-size = Vector2(36, 35)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ag12g"]
 atlas = ExtResource("5_o1ep4")
@@ -331,30 +328,17 @@ texture = SubResource("AtlasTexture_jf3kp")
 position = Vector2(258, 422)
 texture = SubResource("AtlasTexture_3urkh")
 
-[node name="Player QTE Area" type="Area2D" parent="Player_QTE"]
-
-[node name="Player QTE Collision" type="CollisionShape2D" parent="Player_QTE/Player QTE Area"]
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_180q5")
-
 [node name="QTE_Pressed" type="AnimatedSprite2D" parent="."]
 position = Vector2(257, 423)
 sprite_frames = SubResource("SpriteFrames_0jlle")
 animation = &"Block"
 
 [node name="QTE" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(544, 423)
 texture = ExtResource("6_k41lh")
 
-[node name="QTE Area" type="Area2D" parent="QTE"]
-
-[node name="QTE Collision" type="CollisionShape2D" parent="QTE/QTE Area"]
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_180q5")
-
 [node name="QTE Start" type="Marker2D" parent="."]
-position = Vector2(673, 423)
+position = Vector2(752, 423)
 
 [node name="QTE Hit Early" type="Marker2D" parent="."]
 position = Vector2(278, 423)
@@ -363,6 +347,4 @@ position = Vector2(278, 423)
 position = Vector2(239, 423)
 
 [node name="QTE Miss" type="Marker2D" parent="."]
-position = Vector2(216, 423)
-
-[connection signal="body_entered" from="QTE/QTE Area" to="." method="_on_qte_area_body_entered"]
+position = Vector2(190, 423)

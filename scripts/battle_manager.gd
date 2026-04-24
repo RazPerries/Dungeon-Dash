@@ -59,12 +59,20 @@ extends Node
 # QTE
 @onready var qte_background: Sprite2D = $QTEBackground
 @onready var player_qte: Sprite2D = $Player_QTE
+@onready var player_qte_area: Area2D = $"Player_QTE/Player QTE Area"
+@onready var player_qte_collision: CollisionShape2D = $"Player_QTE/Player QTE Area/Player QTE Collision"
+
 @onready var qte_pressed: AnimatedSprite2D = $QTE_Pressed
 @onready var qte: Sprite2D = $QTE
+@onready var qte_area: Area2D = $"QTE/QTE Area"
+@onready var qte_collision: CollisionShape2D = $"QTE/QTE Area/QTE Collision"
+
 @onready var qte_start: Marker2D = $"QTE Start"
 @onready var qte_hit_early: Marker2D = $"QTE Hit Early"
 @onready var qte_hit_late: Marker2D = $"QTE Hit Late"
 @onready var qte_miss: Marker2D = $"QTE Miss"
+
+const EnemyPlayerAbilities = preload("res://scripts/enemy_player_abilities.gd")
 
 var all_battlers = []
 var player_battlers = []
@@ -73,9 +81,12 @@ var enemy_battlers = []
 var current_turn : Node2D
 var current_turn_index : int
 var attack_type: String
-var direction: int
+var qte_speed: int = 1
+var qte_attack = []
+var qte_queue = []
 
 func _ready() -> void:
+	set_process(false)
 	player_actions.hide()
 	battle_end_panel.hide()
 	
@@ -111,19 +122,45 @@ func _ready() -> void:
 	_update_turn()
 	
 func _process(delta: float) -> void:
-	if qte.position.x >= qte_miss.position.x:
-		direction = -2
-	elif qte.position.x <= qte_start.position.x:
-		direction = 2
+	if qte_queue.is_empty():
+		set_process(false)
+		_next_turn()
 		
-	qte.position.x += direction
+	# If QTE is missed completely, delete it
+	if !qte_queue.is_empty():
+		if qte_queue[0].position.x <= qte_miss.position.x:
+			print("Missed")
+			qte_queue[0].free()
+			qte_queue.pop_at(0)
 		
-	# Determines who goes
+	# Determines QTE Speed
+	for i in qte_queue:
+		if is_instance_valid (i):
+			i.position.x -= qte_speed
+			
+	# User Parry Handler
+	if Input.is_action_just_pressed("parry"):
+		if is_instance_valid(qte_queue[0]):
+			# If User Successfully Parries
+			if qte_queue[0].position.x <= qte_hit_early.position.x and qte_queue[0].position.x >= qte_hit_late.position.x:
+				print("Success")
+				current_turn.start_attacking(enemy_battlers[0], qte_attack[0][1])
+				qte_queue[0].free()
+				qte_queue.pop_at(0)
+			# If User Parries Late or Early
+			elif qte_queue[0].position.x < qte_hit_early.position.x or qte_queue[0].position.x > qte_hit_late.position.x:
+				print("Failure")
+				qte_queue[0].free()
+				qte_queue.pop_at(0)
+				
+	
+# Determines who goes
 func _sort_turn_order_ascending(battler_1, battler_2) -> bool:
 	if battler_1.stats_resource.turn_speed < battler_2.stats_resource.turn_speed:
 		return true
 	return false
 	
+# Updates Current Turn
 func _update_turn() -> void:
 	if current_turn.stats_resource.type == BattlerStats.BattlerType.PLAYER:
 		player_actions.show()
@@ -162,16 +199,27 @@ func _player_braced() -> void:
 func _attack_selected_enemy(selected_enemy : Node2D) -> void:
 	_hide_target_buttons()
 	if (attack_type == "basic"):
-		current_turn.start_attacking(selected_enemy, "basic")
+		current_turn.basic_attack(selected_enemy)
 	elif (attack_type == "triple_swipe"):
-		current_turn.start_attacking(selected_enemy, "triple_swipe")
+		_start_qte(selected_enemy, EnemyPlayerAbilities.player_attack_triple_strike)
 	elif (attack_type == "charge_attack"):
-		current_turn.start_attacking(selected_enemy, "charge_attack")
+		_start_qte(selected_enemy, EnemyPlayerAbilities.player_attack_charge)
 	elif (attack_type == "double_strike"):
-		current_turn.start_attacking(selected_enemy, "double_strike")
+		_start_qte(selected_enemy, EnemyPlayerAbilities.player_double_strike)
 	else:
-		current_turn.start_attacking(selected_enemy, "basic")
+		current_turn.basic_attack(selected_enemy)
 	
+func _start_qte(selected_enemy: Node2D, attack) -> void:
+	qte_attack = attack
+	for i in qte_attack:
+		var instance = qte.duplicate(true)
+		add_child(instance)
+		qte_queue.append(instance)
+		instance.show()
+		instance.position = Vector2(qte_start.position.x + (i[0] * 100),qte_start.position.y)
+	set_process(true)
+	
+# Attack Player	
 func _attack_random_player_battler(damage: int) -> void:
 	player_battlers[0].play_hit_fx_anim()
 	await get_tree().create_timer(0.5).timeout
