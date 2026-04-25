@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://o8rdmgtldoqe"]
+[gd_scene load_steps=18 format=3 uid="uid://o8rdmgtldoqe"]
 
 [ext_resource type="Script" path="res://scripts/battle_manager.gd" id="1_ptdwn"]
 [ext_resource type="Texture2D" uid="uid://dmrca81atyrg0" path="res://assets/BackGroundREVAMP.png" id="2_ig5n6"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cim7kdu68nv2c" path="res://scenes/enemy_battler.tscn" id="4_qjj2e"]
 [ext_resource type="Texture2D" uid="uid://hdeen6q6upp5" path="res://assets/QTEREVAMP.png" id="5_o1ep4"]
 [ext_resource type="Texture2D" uid="uid://g0t6jmnoswg0" path="res://assets/QTEIcons.png" id="6_fpgyb"]
-[ext_resource type="Texture2D" uid="uid://c86advbhevcs7" path="res://assets/Sabotages.png" id="7_gcr2x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stvwr"]
 bg_color = Color(0.518933, 0, 0.042894, 1)
@@ -80,22 +79,6 @@ region = Rect2(280, 360, 40, 40)
 [sub_resource type="AtlasTexture" id="AtlasTexture_67bly"]
 atlas = ExtResource("6_fpgyb")
 region = Rect2(280, 400, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ifnfi"]
-atlas = ExtResource("7_gcr2x")
-region = Rect2(296, 40, 176, 184)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dl6y2"]
-atlas = ExtResource("7_gcr2x")
-region = Rect2(288, 288, 184, 184)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ye283"]
-atlas = ExtResource("7_gcr2x")
-region = Rect2(40, 304, 168, 168)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4cnme"]
-atlas = ExtResource("7_gcr2x")
-region = Rect2(40, 40, 168, 184)
 
 [node name="TurnBasedBattleDemo" type="Node"]
 script = ExtResource("1_ptdwn")
@@ -297,28 +280,25 @@ layout_mode = 2
 text = "Use Against Enemy"
 
 [node name="Enemy Status Effect Label" type="VBoxContainer" parent="CanvasLayer"]
+visible = false
 offset_left = 679.0
 offset_top = 420.0
 offset_right = 879.0
 offset_bottom = 524.0
 
 [node name="Enemy Status Label" type="Label" parent="CanvasLayer/Enemy Status Effect Label"]
-visible = false
 layout_mode = 2
 text = "Status Effects:"
 
 [node name="Enemy Effect 1" type="Label" parent="CanvasLayer/Enemy Status Effect Label"]
-visible = false
 layout_mode = 2
 text = "Haste"
 
 [node name="Enemy Effect 2" type="Label" parent="CanvasLayer/Enemy Status Effect Label"]
-visible = false
 layout_mode = 2
 text = "ATK up"
 
 [node name="Enemy Effect 3" type="Label" parent="CanvasLayer/Enemy Status Effect Label"]
-visible = false
 layout_mode = 2
 text = "Haste"
 
@@ -385,59 +365,3 @@ position = Vector2(244, 423)
 
 [node name="QTE Early Hit" type="Marker2D" parent="."]
 position = Vector2(449, 423)
-
-[node name="Sabotage Player Size Down" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(730.5, 518.679)
-scale = Vector2(0.346591, 0.346591)
-texture = SubResource("AtlasTexture_ifnfi")
-
-[node name="Sabotage Enemy Size Down" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(812.5, 518.679)
-scale = Vector2(0.342391, 0.342391)
-texture = SubResource("AtlasTexture_dl6y2")
-
-[node name="Sabotage Enemy Attack Speed Up" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(815, 445)
-scale = Vector2(0.360119, 0.360119)
-texture = SubResource("AtlasTexture_ye283")
-
-[node name="Sabotage Player Attack Speed Up" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(732, 446)
-scale = Vector2(0.366071, 0.366071)
-texture = SubResource("AtlasTexture_4cnme")
-
-[node name="Sabotage Player Attack Speed Up Label" type="Label" parent="."]
-visible = false
-offset_left = 744.0
-offset_top = 465.0
-offset_right = 784.0
-offset_bottom = 488.0
-text = "x99"
-
-[node name="Sabotage Enemy Attack Speed Up Label" type="Label" parent="."]
-visible = false
-offset_left = 827.25
-offset_top = 466.0
-offset_right = 867.25
-offset_bottom = 489.0
-text = "x99"
-
-[node name="Sabotage Enemy Size Down Label" type="Label" parent="."]
-visible = false
-offset_left = 821.5
-offset_top = 545.679
-offset_right = 861.5
-offset_bottom = 568.679
-text = "x99"
-
-[node name="Sabotage Player Size Down Label" type="Label" parent="."]
-visible = false
-offset_left = 737.5
-offset_top = 546.679
-offset_right = 777.5
-offset_bottom = 569.679
-text = "x99"

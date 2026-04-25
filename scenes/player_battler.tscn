@@ -213,6 +213,7 @@ sprite_frames = SubResource("SpriteFrames_1hbxt")
 animation = &"RESET"
 
 [node name="TurnIndicator" type="Panel" parent="."]
+visible = false
 offset_left = -81.0
 offset_top = -148.0
 offset_right = 64.0

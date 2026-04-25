@@ -49,6 +49,11 @@ func start_attacking(player: Node2D, attack) -> void:
 	player.be_damaged(_get_attack_damage() * attack)
 	_stop_anim()
 
+func _heal_hp(amount) -> void:
+	current_hp += amount
+	print("Healed ", amount, " HP")
+	_update_health_bar()
+
 func show_select_button() -> void:
 	select_target_button.show()
 	
@@ -74,8 +79,13 @@ func be_damaged(amount: int) -> void:
 	if current_hp <= 0:
 		current_hp = 0
 		dead.emit(self)
-		queue_free()
+		#queue_free()
 		
 func _stop_anim() -> void:
 	animation_player.play("RESET")
 	
+func _get_hp() -> int:
+	return current_hp
+	
+func _get_max_hp() -> int:
+	return stats_resource.max_hp

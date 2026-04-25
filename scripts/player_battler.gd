@@ -65,8 +65,14 @@ func basic_attack(enemy_target: Node2D) -> void:
 	
 func start_brace() -> void:
 	_play_block_anim()
-	defense += 0.25
+	defense += 0.20
 	await get_tree().create_timer(0.1).timeout
+	turn_ended.emit()
+	
+func _heal_hp(amount) -> void:
+	current_hp += amount
+	print("Healed ", amount, " HP")
+	_update_health_bar()
 	turn_ended.emit()
 	
 func _play_attack_anim() -> void:
@@ -92,4 +98,5 @@ func be_damaged(amount: int) -> void:
 	if current_hp <=  0:
 		current_hp =  0
 		dead.emit(self)
-		queue_free()
+		#queue_free()
+	
