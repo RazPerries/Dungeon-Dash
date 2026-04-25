@@ -15,10 +15,10 @@ const player_buff_atk_up_max: int = 3
 
 const player_buff_heal_max: int = 2
 
-# Enemy Abilities (Attacks Will Have Parry Indicators)
+# Enemy Abilities (Attacks are parriable)
 
 # Bandit
-const bandit_attack_charge: Array = [2, 1.25]
+const bandit_attack_charge: Array = [[2, 1.25]]
 
 const bandit_attack_triple: Array = [[1, 0.50], [2, 0.50], [3, 0.50]]
 

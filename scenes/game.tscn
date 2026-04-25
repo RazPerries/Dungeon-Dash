@@ -1,11 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://o8rdmgtldoqe"]
+[gd_scene load_steps=18 format=3 uid="uid://o8rdmgtldoqe"]
 
 [ext_resource type="Script" path="res://scripts/battle_manager.gd" id="1_ptdwn"]
 [ext_resource type="Texture2D" uid="uid://dmrca81atyrg0" path="res://assets/BackGroundREVAMP.png" id="2_ig5n6"]
 [ext_resource type="PackedScene" uid="uid://d3d3c4qbsswhu" path="res://scenes/player_battler.tscn" id="3_ab74p"]
 [ext_resource type="PackedScene" uid="uid://cim7kdu68nv2c" path="res://scenes/enemy_battler.tscn" id="4_qjj2e"]
 [ext_resource type="Texture2D" uid="uid://hdeen6q6upp5" path="res://assets/QTEREVAMP.png" id="5_o1ep4"]
-[ext_resource type="Texture2D" uid="uid://ckxp5b7pfxdvx" path="res://assets/QTE.png" id="6_k41lh"]
+[ext_resource type="Texture2D" uid="uid://g0t6jmnoswg0" path="res://assets/QTEIcons.png" id="6_fpgyb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stvwr"]
 bg_color = Color(0.518933, 0, 0.042894, 1)
@@ -21,20 +21,17 @@ region = Rect2(176, 288, 544, 312)
 atlas = ExtResource("5_o1ep4")
 region = Rect2(38, 465, 40, 39)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_180q5"]
-size = Vector2(36, 35)
+[sub_resource type="AtlasTexture" id="AtlasTexture_fhxfc"]
+atlas = ExtResource("6_fpgyb")
+region = Rect2(280, 520, 40, 40)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ag12g"]
-atlas = ExtResource("5_o1ep4")
-region = Rect2(87, 463, 45, 45)
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjb28"]
+atlas = ExtResource("6_fpgyb")
+region = Rect2(280, 560, 40, 40)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ik03x"]
-atlas = ExtResource("5_o1ep4")
-region = Rect2(85, 503, 50, 50)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sfihp"]
-atlas = ExtResource("5_o1ep4")
-region = Rect2(87, 421, 45, 45)
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5oqn"]
+atlas = ExtResource("6_fpgyb")
+region = Rect2(280, 480, 40, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ovaxq"]
 atlas = ExtResource("5_o1ep4")
@@ -44,7 +41,7 @@ region = Rect2(268, 198, 45, 45)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ag12g")
+"texture": SubResource("AtlasTexture_fhxfc")
 }],
 "loop": true,
 "name": &"Block",
@@ -52,7 +49,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ik03x")
+"texture": SubResource("AtlasTexture_qjb28")
 }],
 "loop": true,
 "name": &"Evade",
@@ -60,7 +57,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sfihp")
+"texture": SubResource("AtlasTexture_a5oqn")
 }],
 "loop": true,
 "name": &"Parry",
@@ -74,6 +71,14 @@ animations = [{
 "name": &"RESET",
 "speed": 5.0
 }]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28u02"]
+atlas = ExtResource("6_fpgyb")
+region = Rect2(280, 360, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67bly"]
+atlas = ExtResource("6_fpgyb")
+region = Rect2(280, 400, 40, 40)
 
 [node name="TurnBasedBattleDemo" type="Node"]
 script = ExtResource("1_ptdwn")
@@ -331,27 +336,20 @@ texture = SubResource("AtlasTexture_jf3kp")
 position = Vector2(258, 422)
 texture = SubResource("AtlasTexture_3urkh")
 
-[node name="Player QTE Area" type="Area2D" parent="Player_QTE"]
-
-[node name="Player QTE Collision" type="CollisionShape2D" parent="Player_QTE/Player QTE Area"]
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_180q5")
-
 [node name="QTE_Pressed" type="AnimatedSprite2D" parent="."]
 position = Vector2(257, 423)
 sprite_frames = SubResource("SpriteFrames_0jlle")
-animation = &"Block"
+animation = &"RESET"
 
-[node name="QTE" type="Sprite2D" parent="."]
+[node name="QTE_Icon_Player" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(544, 423)
-texture = ExtResource("6_k41lh")
+texture = SubResource("AtlasTexture_28u02")
 
-[node name="QTE Area" type="Area2D" parent="QTE"]
-
-[node name="QTE Collision" type="CollisionShape2D" parent="QTE/QTE Area"]
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_180q5")
+[node name="QTE_Icon_Enemy" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(544, 423)
+texture = SubResource("AtlasTexture_67bly")
 
 [node name="QTE Start" type="Marker2D" parent="."]
 position = Vector2(673, 423)
@@ -365,4 +363,8 @@ position = Vector2(239, 423)
 [node name="QTE Miss" type="Marker2D" parent="."]
 position = Vector2(216, 423)
 
-[connection signal="body_entered" from="QTE/QTE Area" to="." method="_on_qte_area_body_entered"]
+[node name="QTE Getting Hit Buffer" type="Marker2D" parent="."]
+position = Vector2(244, 423)
+
+[node name="QTE Early Hit" type="Marker2D" parent="."]
+position = Vector2(302, 423)

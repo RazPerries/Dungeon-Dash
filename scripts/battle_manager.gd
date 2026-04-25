@@ -59,18 +59,19 @@ extends Node
 # QTE
 @onready var qte_background: Sprite2D = $QTEBackground
 @onready var player_qte: Sprite2D = $Player_QTE
-@onready var player_qte_area: Area2D = $"Player_QTE/Player QTE Area"
-@onready var player_qte_collision: CollisionShape2D = $"Player_QTE/Player QTE Area/Player QTE Collision"
 
 @onready var qte_pressed: AnimatedSprite2D = $QTE_Pressed
-@onready var qte: Sprite2D = $QTE
-@onready var qte_area: Area2D = $"QTE/QTE Area"
-@onready var qte_collision: CollisionShape2D = $"QTE/QTE Area/QTE Collision"
+@onready var qte_icon_player: Sprite2D = $QTE_Icon_Player
+@onready var qte_icon_enemy: Sprite2D = $QTE_Icon_Enemy
+
 
 @onready var qte_start: Marker2D = $"QTE Start"
 @onready var qte_hit_early: Marker2D = $"QTE Hit Early"
 @onready var qte_hit_late: Marker2D = $"QTE Hit Late"
 @onready var qte_miss: Marker2D = $"QTE Miss"
+@onready var qte_getting_hit_buffer: Marker2D = $"QTE Getting Hit Buffer"
+@onready var qte_early_hit: Marker2D = $"QTE Early Hit"
+
 
 const EnemyPlayerAbilities = preload("res://scripts/enemy_player_abilities.gd")
 
@@ -81,9 +82,22 @@ var enemy_battlers = []
 var current_turn : Node2D
 var current_turn_index : int
 var attack_type: String
-var qte_speed: int = 1
+
+# Variable for QTE Speed
+var qte_speed: int = 1.5
+
+# Variable to 
 var qte_attack = []
+
+# Holds the QTE attack list
 var qte_queue = []
+
+var evade_frames: float = 0
+var parry_frames: float = 0
+var parry_count: int
+var parry_extra_turn: bool
+
+var qte_target: String = ""
 
 func _ready() -> void:
 	set_process(false)
@@ -124,35 +138,102 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if qte_queue.is_empty():
 		set_process(false)
+		await get_tree().create_timer(0.5).timeout
+		evade_frames = 0
+		parry_frames = 0
+		qte_pressed.play("RESET")
 		_next_turn()
-		
-	# If QTE is missed completely, delete it
-	if !qte_queue.is_empty():
-		if qte_queue[0].position.x <= qte_miss.position.x:
-			print("Missed")
-			qte_queue[0].free()
-			qte_queue.pop_at(0)
+	
+	if evade_frames > 0:
+		evade_frames -= delta
+	if parry_frames > 0:
+		parry_frames -= delta
 		
 	# Determines QTE Speed
 	for i in qte_queue:
 		if is_instance_valid (i):
 			i.position.x -= qte_speed
+	
+	#   PLAYER ATTACKING ENEMY
+	
+	# If QTE is for the Player attacking the Enemy
+	if qte_target == "EnemyBattler" and !qte_queue.is_empty():
+		
+		# If the QTE is missed by the player entirely
+		if qte_queue[0].position.x <= qte_miss.position.x:
+			print("Attack Failed")
+			qte_queue[0].free()
+			qte_queue.pop_at(0)
 			
-	# User Parry Handler
-	if Input.is_action_just_pressed("parry"):
-		if is_instance_valid(qte_queue[0]):
-			# If User Successfully Parries
+		if Input.is_action_just_pressed("parry"):
+			qte_pressed.play("Parry")
+			parry_frames = 0.1
 			if qte_queue[0].position.x <= qte_hit_early.position.x and qte_queue[0].position.x >= qte_hit_late.position.x:
-				print("Success")
+				print("Attack Successful")
 				current_turn.start_attacking(enemy_battlers[0], qte_attack[0][1])
 				qte_queue[0].free()
 				qte_queue.pop_at(0)
-			# If User Parries Late or Early
-			elif qte_queue[0].position.x < qte_hit_early.position.x or qte_queue[0].position.x > qte_hit_late.position.x:
-				print("Failure")
+			elif qte_queue[0].position.x < qte_hit_early.position.x or qte_queue[0].position.x > qte_hit_late.position.x and qte_queue[0].position.x <= qte_early_hit.position.x:
+				print("Attack Mistimed")
 				qte_queue[0].free()
 				qte_queue.pop_at(0)
 				
+		if parry_frames <= 0:
+			qte_pressed.play("RESET")
+	
+	#   ENEMY ATTACKING PLAYER
+	
+	# QTE for the Enemy attacking the Player
+	if qte_target == "PlayerBattler" and !qte_queue.is_empty():
+		
+		# If the Player successfully times their evade, then the attack misses the player
+		if qte_queue[0].position.x <= qte_hit_early.position.x and qte_queue[0].position.x >= qte_hit_late.position.x:
+			if evade_frames > 0:
+				print("Evaded!")
+				qte_queue[0].position.x -= 50
+			elif parry_frames > 0:
+				print("Parried!")
+				qte_queue[0].free()
+				qte_queue.pop_at(0)
+			
+		if !qte_queue.is_empty() and is_instance_valid(qte_queue[0]):
+			# If the Player fails to redirect the enemy attack
+			if qte_queue[0].position.x > qte_hit_late.position.x and qte_queue[0].position.x <= qte_getting_hit_buffer.position.x:
+				print("Player Hit!")
+				enemy_battlers[0].start_attacking(player_battlers[0], qte_attack[0][1])
+				qte_queue[0].free()
+				qte_queue.pop_at(0)
+				
+			# If the attack goes past the player
+			else:
+				if qte_queue[0].position.x <= qte_miss.position.x:
+					qte_queue[0].free()
+					qte_queue.pop_at(0)
+		
+		# PLAYER INPUT HANDLERS
+		if evade_frames <= 0 and parry_frames <= 0:
+			# Player Block Handler
+			if Input.is_action_pressed("block"):
+				qte_pressed.play("Block")
+				if qte_queue[0].position.x <= qte_hit_early.position.x and qte_queue[0].position.x >= qte_hit_late.position.x:
+					print("Blocked")
+					enemy_battlers[0].start_attacking(player_battlers[0], qte_attack[0][1] * 0.75)
+					qte_queue[0].free()
+					qte_queue.pop_at(0)
+			
+			# Player Evade Handler
+			elif Input.is_action_just_pressed("evade"):
+				qte_pressed.play("Evade")
+				evade_frames = 1
+				
+			elif Input.is_action_just_pressed("parry"):
+				qte_pressed.play("Parry")
+				parry_frames = 0.1
+					
+			# If no input is active, then reset the player input feedback animation
+			else:
+				if !qte_pressed.animation == "RESET":
+					qte_pressed.play("RESET")
 	
 # Determines who goes
 func _sort_turn_order_ascending(battler_1, battler_2) -> bool:
@@ -164,16 +245,22 @@ func _sort_turn_order_ascending(battler_1, battler_2) -> bool:
 func _update_turn() -> void:
 	if current_turn.stats_resource.type == BattlerStats.BattlerType.PLAYER:
 		player_actions.show()
-		attack_type = ""
 	else:
 		player_actions.hide()
 		
 	current_turn.start_turn()
 	
 func _next_turn() -> void:
+	qte_background.hide()
+	qte_pressed.hide()
+	player_qte.hide()
+	qte_target = ""
+	attack_type = ""
+	parry_count = 0
 	if player_actions.visible:
 		player_actions.hide()
-	current_turn.stop_turn()
+	if is_instance_valid(current_turn):
+		current_turn.stop_turn()
 	if _check_for_battle_end() == false:
 		current_turn_index = (current_turn_index + 1) % all_battlers.size()
 		current_turn = all_battlers[current_turn_index]
@@ -211,20 +298,30 @@ func _attack_selected_enemy(selected_enemy : Node2D) -> void:
 	
 func _start_qte(selected_enemy: Node2D, attack) -> void:
 	qte_attack = attack
+	qte_target = selected_enemy.get_name()
+	qte_background.show()
+	qte_pressed.show()
+	player_qte.show()
 	for i in qte_attack:
-		var instance = qte.duplicate(true)
-		add_child(instance)
-		qte_queue.append(instance)
-		instance.show()
-		instance.position = Vector2(qte_start.position.x + (i[0] * 100),qte_start.position.y)
+		if qte_target == "PlayerBattler":
+			var instance = qte_icon_enemy.duplicate(true)
+			add_child(instance)
+			qte_queue.append(instance)
+			instance.show()
+			instance.position = Vector2(qte_start.position.x + (i[0] * 100),qte_start.position.y)
+		else:
+			var instance = qte_icon_player.duplicate(true)
+			add_child(instance)
+			qte_queue.append(instance)
+			instance.show()
+			instance.position = Vector2(qte_start.position.x + (i[0] * 100),qte_start.position.y)
 	set_process(true)
 	
 # Attack Player	
 func _attack_random_player_battler(damage: int) -> void:
-	player_battlers[0].play_hit_fx_anim()
-	await get_tree().create_timer(0.5).timeout
-	player_battlers[0].be_damaged(damage)
-	_next_turn()
+	var enemy_attack_array = [EnemyPlayerAbilities.bandit_attack_charge, EnemyPlayerAbilities.bandit_attack_triple, EnemyPlayerAbilities.bandit_attack_two_offbeat]
+	var rand = randi_range(0, 2)
+	_start_qte(player_battlers[0], enemy_attack_array[rand])
 	
 func _on_enemy_dead(dead_enemy: Node2D) -> void:
 	enemy_battlers.erase(dead_enemy)
@@ -309,9 +406,11 @@ func _hide_status_effect(target) -> void:
 			enemy_status_effect_label.hide()
 
 func _update_health_bar() -> void:
-	player_health_bar.max_value = player_battlers[0].health_bar.max_value
-	player_health_bar.value = player_battlers[0].health_bar.value
-	player_hp_label.text = "HP:%d/%d" % [player_battlers[0].health_bar.value, player_battlers[0].health_bar.max_value]
-	enemy_health_bar.max_value = enemy_battlers[0].health_bar.max_value
-	enemy_health_bar.value =enemy_battlers[0].health_bar.value
-	enemy_hp_label.text = "HP:%d/%d" % [enemy_battlers[0].health_bar.value, enemy_battlers[0].health_bar.max_value]
+	if !player_battlers.is_empty():
+		player_health_bar.max_value = player_battlers[0].health_bar.max_value
+		player_health_bar.value = player_battlers[0].health_bar.value
+		player_hp_label.text = "HP:%d/%d" % [player_battlers[0].health_bar.value, player_battlers[0].health_bar.max_value]
+	if !enemy_battlers.is_empty():
+		enemy_health_bar.max_value = enemy_battlers[0].health_bar.max_value
+		enemy_health_bar.value =enemy_battlers[0].health_bar.value
+		enemy_hp_label.text = "HP:%d/%d" % [enemy_battlers[0].health_bar.value, enemy_battlers[0].health_bar.max_value]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbgi8tl7kn2rj"
-path="res://.godot/imported/quick time events.png-835f4dcb319c3e58ade1e63edfd97285.ctex"
+uid="uid://g0t6jmnoswg0"
+path="res://.godot/imported/QTEIcons.png-bdfb35098986dc558202c97cc62747cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/quick time events.png"
-dest_files=["res://.godot/imported/quick time events.png-835f4dcb319c3e58ade1e63edfd97285.ctex"]
+source_file="res://assets/QTEIcons.png"
+dest_files=["res://.godot/imported/QTEIcons.png-bdfb35098986dc558202c97cc62747cf.ctex"]
 
 [params]
 

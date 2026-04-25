@@ -236,7 +236,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="HitFX" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(2, -57)
+position = Vector2(-91, -125)
 texture = SubResource("AtlasTexture_w42t4")
 centered = false
 hframes = 3

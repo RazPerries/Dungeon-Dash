@@ -79,6 +79,7 @@ func _get_attack_damage() -> int:
 	return stats_resource.attack_damage
 	
 func play_hit_fx_anim() -> void:
+	hit_fx_animation.play("RESET")
 	hit_fx_animation.play("play")
 	
 func _play_block_anim() -> void:
@@ -86,6 +87,7 @@ func _play_block_anim() -> void:
 	
 func be_damaged(amount: int) -> void:
 	current_hp -= floor(amount * (1 - defense))
+	print("Took: ", floor(amount * (1 - defense)))
 	_update_health_bar()
 	if current_hp <=  0:
 		current_hp =  0
