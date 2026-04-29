@@ -5,6 +5,6 @@
 [resource]
 script = ExtResource("1_f4frk")
 type = 1
-max_hp = 1000000
-attack_damage = 100
+max_hp = 1200
+attack_damage = 80
 turn_speed = 50

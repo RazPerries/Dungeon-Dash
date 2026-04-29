@@ -32,9 +32,7 @@ func _update_health_bar() -> void:
 	
 func start_turn() -> void:
 	turn_indicator_animation.play("in_turn")
-	#_play_attack_anim()
-	#await get_tree().create_timer(0.2).timeout
-	deal_damage.emit(_get_attack_damage())
+	deal_damage.emit()
  
 func stop_turn() -> void:
 	turn_indicator_animation.play("RESET")
@@ -46,11 +44,12 @@ func start_attacking(player: Node2D, attack) -> void:
 	await get_tree().create_timer(0.2).timeout
 	player.play_hit_fx_anim()
 	await get_tree().create_timer(0.2).timeout
-	player.be_damaged(_get_attack_damage() * attack)
+	player.be_damaged(_get_attack_damage() * (attack))
 	_stop_anim()
 
 func _heal_hp(amount) -> void:
 	current_hp += amount
+	current_hp = clamp(current_hp, 0, _get_max_hp())
 	print("Healed ", amount, " HP")
 	_update_health_bar()
 

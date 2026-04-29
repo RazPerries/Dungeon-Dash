@@ -7,12 +7,8 @@ extends Node2D
 @onready var animation_player: AnimatedSprite2D = $Animations
 @onready var hit_fx_animation: AnimationPlayer = $HitFX/HitFXAnimation
 
-
 var current_hp : int
 var defense: float = 0
-var atk_mult: bool = false
-var haste: bool = false
-var heal_amount: int = 4
 
 signal dead(this_battler: Node2D)
 signal turn_ended
@@ -25,14 +21,16 @@ func _ready() -> void:
 	
 	_update_health_bar()
 	
+# Updates the player's health bar.
 func _update_health_bar() -> void:
 	health_bar.max_value = stats_resource.max_hp
 	health_bar.value = current_hp
 	update_health.emit()
 	
-func _return_health() -> int:
+func _return_health() -> float:
 	return health_bar.value
-	
+
+# Resets animations and brace defense.
 func start_turn() -> void:
 	turn_indicator_animation.play("in_turn")
 	animation_player.play("RESET")
@@ -41,7 +39,6 @@ func start_turn() -> void:
 	
 func stop_turn() -> void:
 	turn_indicator_animation.play("RESET")
-	# animation_player.play("RESET")
 	hit_fx_animation.play("RESET")
 	
 func start_attacking(enemy_target: Node2D, attack) -> void:
@@ -53,13 +50,13 @@ func start_attacking(enemy_target: Node2D, attack) -> void:
 	print("Dealing ", _get_attack_damage() * attack)
 	_stop_anim()
 
-func basic_attack(enemy_target: Node2D) -> void:
+func basic_attack(enemy_target: Node2D, percentage) -> void:
 	_play_attack_anim()
 	await get_tree().create_timer(0.2).timeout
 	enemy_target.play_hit_fx_anim()
 	await get_tree().create_timer(0.2).timeout
-	enemy_target.be_damaged(_get_attack_damage())
-	print("Dealing ", _get_attack_damage())
+	enemy_target.be_damaged(_get_attack_damage() * percentage)
+	print("Dealing ", _get_attack_damage() * percentage)
 	_stop_anim()
 	turn_ended.emit()
 	
@@ -71,6 +68,7 @@ func start_brace() -> void:
 	
 func _heal_hp(amount) -> void:
 	current_hp += amount
+	current_hp = clamp(current_hp, 0, _get_max_hp())
 	print("Healed ", amount, " HP")
 	_update_health_bar()
 	turn_ended.emit()
@@ -99,4 +97,9 @@ func be_damaged(amount: int) -> void:
 		current_hp =  0
 		dead.emit(self)
 		#queue_free()
+
+func _get_hp() -> int:
+	return current_hp
 	
+func _get_max_hp() -> int:
+	return stats_resource.max_hp

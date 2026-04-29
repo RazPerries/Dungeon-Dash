@@ -2,51 +2,126 @@ extends Node
 
 # General stuff
 
+# Speed of the QTE
 const qte_speed: float = 2
 
+# Duration of parrying
 const parry_iframes: float = 0.1
 
+# Duration of evading
 const evade_iframes: float = 0.25
 
-# Player Abilities
-# Arrays are [QTE Time, Dmg % of ATK]
+# The chance that the bandit will parry a mistimed attack
+const bandit_parry_chance: float = 50.0
 
-const player_attack_triple_strike: Array = [[0, 0.75], [1, 0.75], [2, 0.75]]
+# Player Attacks
 
-const player_attack_charge: Array = [[1,1.5]]
+# Player Attack Format:
+# name_of_attack
+#	attack name
+#	damage percentage (%) of the player's attack
+#	attack seqeuence determines position of QTE during attack
+const player_attacks = {
+	"basic_attack": {
+		"name": "Basic Attack",
+		"damage_percentage": [0.80],
+	},
+	"charge_attack":{
+		"name": "Charge Attack",
+		"damage_percentage": [1.40],
+		"attack_sequence": [1],
+	},
+	"double_strike_attack":{
+		"name": "Double Strike Attack",
+		"damage_percentage": [0.60, 0.70],
+		"attack_sequence": [0, 1],
+	},
+	"triple_strike_attack":{
+		"name": "Triple Strike Attack",
+		"damage_percentage": [0.40, 0.50, 0.60],
+		"attack_sequence": [0, 1, 2],
+	},
+}
 
-const player_double_strike: Array = [[0, 0.75],[1, 0.75]]
-
-const player_buff_haste_up_max: int = 3
-
-const player_buff_atk_up_max: int = 3
-
-const player_buff_heal_max: int = 2
-
-const player_buff_heal_amount: int = 200
-
-# Enemy Abilities (Attacks are parriable)
+const player_abilities = {
+	"heal": {
+		"name": "Heal",
+		"heal_amount": [200],
+		"max_uses":2,
+	},
+	"attack_up":{
+		"name": "Attack Up",
+		"attack_increase_percentage": [150],
+		"duration": 3,
+	},
+}
 
 # Bandit
-const bandit_attack_charge: Array = [[2, 1.25]]
 
-const bandit_attack_triple: Array = [[1, 0.50], [2, 0.50], [3, 0.50]]
+const bandit_attacks = {
+	"charge_attack":{
+		"name": "Charge Attack",
+		"damage_percentage": [0.50, 0.75, 0.75],
+		"attack_sequence": [1, 2.5, 3],
+	},
+	"two_offbeat_attack":{
+		"name": "Two Offbeat Attack",
+		"damage_percentage": [0.60, 0.60],
+		"attack_sequence": [0, 1],
+	},
+	"triple_strike_attack":{
+		"name": "Triple Strike Attack",
+		"damage_percentage": [0.50, 0.50, 0.50],
+		"attack_sequence": [0, 1, 2],
+	},
+	"four_offbeat_attack":{
+		"name": "Quadruple Offbeat Attack",
+		"damage_percentage": [0.30, 0.30, 0.30, 0.30],
+		"attack_sequence": [1.5, 2.5, 4, 4.5],
+	},
+	"three_row_attack":{
+		"name": "Three Row Attack",
+		"damage_percentage": [0.40, 0.40, 0.40],
+		"attack_sequence": [0.5, 1, 1.5],
+	},
+}
 
-const bandit_attack_two_offbeat: Array = [[1.5, 0.75],[2, 0.75]]
-
-const bandit_buff_atk_up_max: int = 4
-
-const bandit_buff_heal_max: int = 5
-
-# Parry Chance (%)
-const bandit_parry_chance: float = 50.0
+const bandit_abilities = {
+	"heal": {
+		"name": "Heal",
+		"heal_amount": [250],
+		"max_uses":2,
+	},
+	"attack_up":{
+		"name": "Attack Up",
+		"attack_increase_percentage": [120],
+		"duration": 2,
+	},
+}
 
 # Enemy Sabotages
 
+const sabotages = {
+	"player_attack_speed_up": {
+		"name": "Player Attack Speed Up",
+		"speed_up": 1.0,
+	},
+	"enemy_attack_speed_up": {
+		"name": "Enemy Attack Speed Up",
+		"speed_up": 1.0,
+	},
+	
+	"player_size_down": {
+		"name": "Player Size Down",
+		"size_down_percentage": 0.85,
+	},
+	"enemy_size_down": {
+		"name": "Enemy Size Down",
+		"size_down_percentage": 0.85,
+	}
+}
+
 const sabotage_player_attack_speed_up = ["Player Speed Up", 1.0]
-
 const sabotage_enemy_attack_speed_up = ["Enemy Speed Up", 1.0]
-
 const sabotage_enemy_size_down = ["Enemy Size Down", 0.85]
-
 const sabotage_player_size_down = ["Player Size Down", 0.85]

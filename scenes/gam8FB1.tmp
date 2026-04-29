@@ -464,15 +464,14 @@ offset_right = 208.5
 offset_bottom = -14.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Make sure to time those keys with the QTEs!"
+text = "Player Feedback Text"
 horizontal_alignment = 1
 
 [node name="Instructions_Label" type="Label" parent="."]
-offset_left = 16.0
-offset_top = 480.0
-offset_right = 192.0
-offset_bottom = 581.0
+offset_left = 28.0
+offset_top = 500.0
+offset_right = 196.0
+offset_bottom = 575.0
 text = "Hold [B] to Block
 Press [V] to Evade
-Press [Space] to Parry
-Press [Space] to Attack"
+Press [Space] to Parry"
