@@ -1,5 +1,7 @@
 extends Node2D
 
+# Script for the Player
+
 @export var stats_resource : BattlerStats
 
 @onready var health_bar : ProgressBar = $HealthBar
@@ -41,6 +43,8 @@ func stop_turn() -> void:
 	turn_indicator_animation.play("RESET")
 	hit_fx_animation.play("RESET")
 	
+	
+# Initiate attack
 func start_attacking(enemy_target: Node2D, attack) -> void:
 	_play_attack_anim()
 	await get_tree().create_timer(0.2).timeout
@@ -50,6 +54,7 @@ func start_attacking(enemy_target: Node2D, attack) -> void:
 	print("Dealing ", _get_attack_damage() * attack)
 	_stop_anim()
 
+# Initiate basic attack
 func basic_attack(enemy_target: Node2D, percentage) -> void:
 	_play_attack_anim()
 	await get_tree().create_timer(0.2).timeout

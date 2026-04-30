@@ -1,5 +1,6 @@
 extends Node
 
+# UI Panel
 @onready var battle_end_panel: Panel = $"UI Canvas Layer/BattleEndPanel"
 @onready var battle_end_text: RichTextLabel = $"UI Canvas Layer/BattleEndPanel/BattleEndText"
 
@@ -84,16 +85,21 @@ extends Node
 @onready var player_feedback_box: ColorRect = $"Player Feedback Box"
 @onready var player_feedback_label: Label = $"Player Feedback Box/Player Feedback Label"
 
+# Load constants into memory
 const EnemyPlayerAbilities = preload("res://scripts/enemy_player_abilities.gd")
 
+# Put battlers into arrays
 var all_battlers = []
 var player_battlers = []
 var enemy_battlers = []
 
+# keeping track of the current turn
 var current_turn : Node2D
 var current_turn_index : int
+
+# keeping track of action type
 var attack_type
-var ability_type: String
+var ability_type
 
 # Variable for QTE Speed
 var qte_speed: float = EnemyPlayerAbilities.qte_speed
@@ -105,6 +111,7 @@ var qte_percentages = []
 # QTE attack Array
 var qte_queue = []
 
+# Count the frames, uses, and extra turn toggle
 var evade_frames: float = 0
 var parry_frames: float = 0
 var parry_count: int = 0
@@ -117,6 +124,7 @@ var active_sabotages = []
 # Player QTE Sabotage
 var qte_hit_early_pos
 
+# count number of player heal uses
 var player_heal_uses = 0
 
 func _ready() -> void:
@@ -125,6 +133,7 @@ func _ready() -> void:
 	battle_end_panel.hide()
 	qte_hit_early_pos = qte_hit_early.position.x
 	
+	
 	player_battlers = get_tree().get_nodes_in_group("PlayerBattler")
 	enemy_battlers = get_tree().get_nodes_in_group("EnemyBattler")
 	all_battlers.append_array(player_battlers)
@@ -132,6 +141,7 @@ func _ready() -> void:
 	
 	all_battlers.sort_custom(_sort_turn_order_ascending)
 	
+	# Connecting all the buttons
 	brace_button.pressed.connect(player_ability.bind("Brace"))
 	basic_attack_button.pressed.connect(player_attack.bind(EnemyPlayerAbilities.player_attacks.basic_attack))
 	triple_swipe_button.pressed.connect(player_attack.bind(EnemyPlayerAbilities.player_attacks.triple_strike_attack))
@@ -146,11 +156,13 @@ func _ready() -> void:
 	
 	cancel_action_button.pressed.connect(_cancel_button_pressed)
 	
+	# Adding player characters to turn list
 	for p in player_battlers:
 		p.turn_ended.connect(_next_turn)
 		p.dead.connect(_on_player_dead)
 		p.update_health.connect(_update_health_bar)
-		
+	
+	# Adding enemy characters to turn list
 	for e in enemy_battlers:
 		e.be_selected.connect(_attack_selected_enemy)
 		e.dead.connect(_on_enemy_dead)
@@ -173,9 +185,10 @@ func _process(delta: float) -> void:
 		evade_frames = 0
 		parry_frames = 0
 		qte_pressed.play("RESET")
-		if current_turn == enemy_battlers[0] and !enemy_battlers.is_empty():
-			_clear_sabotages()
-			_choose_sabotage(current_turn._get_hp(), current_turn._get_max_hp())
+		if !enemy_battlers.is_empty():
+			if current_turn == enemy_battlers[0]:
+				_clear_sabotages()
+				_choose_sabotage(current_turn._get_hp(), current_turn._get_max_hp())
 		_next_turn()
 	
 	if evade_frames > 0:
@@ -348,6 +361,8 @@ func _choose_sabotage(health, max_health) -> void:
 	if (health <= ceil((max_health/4))):
 		rand = randi_range(0, sabotage_list.size()-1)
 		active_sabotages.append(sabotage_list[rand])
+	
+	# Show the icon for enabled sabotages
 	
 	if active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_attack_speed_up) > 0:
 		sabotage_enemy_attack_speed_up.show()

@@ -1,5 +1,7 @@
 extends Node2D
 
+# Script for the Bandit
+
 @export var stats_resource : BattlerStats
 
 @onready var health_bar : ProgressBar = $HealthBar
