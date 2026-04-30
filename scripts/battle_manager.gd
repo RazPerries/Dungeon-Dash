@@ -1,69 +1,68 @@
 extends Node
 
-@onready var battle_end_panel: Panel = $CanvasLayer/BattleEndPanel
-@onready var battle_end_text: RichTextLabel = $CanvasLayer/BattleEndPanel/BattleEndText
+# UI Panel
+@onready var battle_end_panel: Panel = $"UI Canvas Layer/BattleEndPanel"
+@onready var battle_end_text: RichTextLabel = $"UI Canvas Layer/BattleEndPanel/BattleEndText"
 
-@onready var player_actions: HBoxContainer = $"CanvasLayer/Player Actions"
+@onready var player_actions: HBoxContainer = $"UI Canvas Layer/Player Actions"
 
 # Basic Actions
-@onready var basic_actions: VBoxContainer = $"CanvasLayer/Player Actions/Basic Actions"
-@onready var basic_attack_button: Button = $"CanvasLayer/Player Actions/Basic Actions/Basic Attack Button"
-@onready var brace_button: Button = $"CanvasLayer/Player Actions/Basic Actions/Brace Button"
+@onready var basic_actions: VBoxContainer = $"UI Canvas Layer/Player Actions/Basic Actions"
+@onready var basic_attack_button: Button = $"UI Canvas Layer/Player Actions/Basic Actions/Basic Attack Button"
+@onready var brace_button: Button = $"UI Canvas Layer/Player Actions/Basic Actions/Brace Button"
 
 # Skills
-@onready var skills: VBoxContainer = $"CanvasLayer/Player Actions/Skills"
-@onready var triple_swipe_button: Button = $"CanvasLayer/Player Actions/Skills/Triple Swipe Button"
-@onready var charge_attack_button: Button = $"CanvasLayer/Player Actions/Skills/Charge Attack Button"
-@onready var double_strike_button: Button = $"CanvasLayer/Player Actions/Skills/Double Strike Button"
+@onready var skills: VBoxContainer = $"UI Canvas Layer/Player Actions/Skills"
+@onready var triple_swipe_button: Button = $"UI Canvas Layer/Player Actions/Skills/Triple Swipe Button"
+@onready var charge_attack_button: Button = $"UI Canvas Layer/Player Actions/Skills/Charge Attack Button"
+@onready var double_strike_button: Button = $"UI Canvas Layer/Player Actions/Skills/Double Strike Button"
 
 # Abilities
-@onready var abilities: VBoxContainer = $"CanvasLayer/Player Actions/Abilities"
-@onready var heal_button: Button = $"CanvasLayer/Player Actions/Abilities/Heal Button"
-@onready var haste_button: Button = $"CanvasLayer/Player Actions/Abilities/Haste Button"
-@onready var atk_up_button: Button = $"CanvasLayer/Player Actions/Abilities/ATK UP Button"
+@onready var abilities: VBoxContainer = $"UI Canvas Layer/Player Actions/Abilities"
+@onready var heal_button: Button = $"UI Canvas Layer/Player Actions/Abilities/Heal Button"
+@onready var haste_button: Button = $"UI Canvas Layer/Player Actions/Abilities/Haste Button"
+@onready var atk_up_button: Button = $"UI Canvas Layer/Player Actions/Abilities/ATK UP Button"
 
 # Player Health
-@onready var player_health: VBoxContainer = $"CanvasLayer/Player Health"
-@onready var player_name: Label = $"CanvasLayer/Player Health/Player Name"
-@onready var player_health_bar: ProgressBar = $"CanvasLayer/Player Health/Player Health Bar"
-@onready var player_hp_label: Label = $"CanvasLayer/Player Health/Player Health Bar/Player HP Label"
-@onready var self_use_button: Button = $"CanvasLayer/Player Health/Self Use Button"
+@onready var player_health: VBoxContainer = $"UI Canvas Layer/Player Health"
+@onready var player_name: Label = $"UI Canvas Layer/Player Health/Player Name"
+@onready var player_health_bar: ProgressBar = $"UI Canvas Layer/Player Health/Player Health Bar"
+@onready var player_hp_label: Label = $"UI Canvas Layer/Player Health/Player Health Bar/Player HP Label"
+@onready var self_use_button: Button = $"UI Canvas Layer/Player Health/Self Use Button"
 
 # Player Status Effects
-@onready var player_status_effect_label: VBoxContainer = $"CanvasLayer/Player Status Effect Label"
-@onready var player_status_label: Label = $"CanvasLayer/Player Status Effect Label/Player Status Label"
-@onready var player_effect_1: Label = $"CanvasLayer/Player Status Effect Label/Player Effect 1"
-@onready var player_effect_2: Label = $"CanvasLayer/Player Status Effect Label/Player Effect 2"
-@onready var player_effect_3: Label = $"CanvasLayer/Player Status Effect Label/Player Effect 3"
+@onready var player_status_effect_label: VBoxContainer = $"UI Canvas Layer/Player Status Effect Label"
+@onready var player_status_label: Label = $"UI Canvas Layer/Player Status Effect Label/Player Status Label"
+@onready var player_effect_1: Label = $"UI Canvas Layer/Player Status Effect Label/Player Effect 1"
+@onready var player_effect_2: Label = $"UI Canvas Layer/Player Status Effect Label/Player Effect 2"
+@onready var player_effect_3: Label = $"UI Canvas Layer/Player Status Effect Label/Player Effect 3"
 
 # Enemy Health
-@onready var enemy_health: VBoxContainer = $"CanvasLayer/Enemy Health"
-@onready var enemy_name: Label = $"CanvasLayer/Enemy Health/Enemy Name"
-@onready var enemy_health_bar: ProgressBar = $"CanvasLayer/Enemy Health/Enemy Health Bar"
-@onready var enemy_hp_label: Label = $"CanvasLayer/Enemy Health/Enemy Health Bar/Enemy HP Label"
-@onready var enemy_use_button: Button = $"CanvasLayer/Enemy Health/Enemy Use Button"
+@onready var enemy_health: VBoxContainer = $"UI Canvas Layer/Enemy Health"
+@onready var enemy_name: Label = $"UI Canvas Layer/Enemy Health/Enemy Name"
+@onready var enemy_health_bar: ProgressBar = $"UI Canvas Layer/Enemy Health/Enemy Health Bar"
+@onready var enemy_hp_label: Label = $"UI Canvas Layer/Enemy Health/Enemy Health Bar/Enemy HP Label"
+@onready var enemy_use_button: Button = $"UI Canvas Layer/Enemy Health/Enemy Use Button"
 
 # Enemy Status Effects
-@onready var enemy_status_effect_label: VBoxContainer = $"CanvasLayer/Enemy Status Effect Label"
-@onready var enemy_status_label: Label = $"CanvasLayer/Enemy Status Effect Label/Enemy Status Label"
-@onready var enemy_effect_1: Label = $"CanvasLayer/Enemy Status Effect Label/Enemy Effect 1"
-@onready var enemy_effect_2: Label = $"CanvasLayer/Enemy Status Effect Label/Enemy Effect 2"
-@onready var enemy_effect_3: Label = $"CanvasLayer/Enemy Status Effect Label/Enemy Effect 3"
+@onready var enemy_status_effect_label: VBoxContainer = $"UI Canvas Layer/Enemy Status Effect Label"
+@onready var enemy_status_label: Label = $"UI Canvas Layer/Enemy Status Effect Label/Enemy Status Label"
+@onready var enemy_effect_1: Label = $"UI Canvas Layer/Enemy Status Effect Label/Enemy Effect 1"
+@onready var enemy_effect_2: Label = $"UI Canvas Layer/Enemy Status Effect Label/Enemy Effect 2"
+@onready var enemy_effect_3: Label = $"UI Canvas Layer/Enemy Status Effect Label/Enemy Effect 3"
 
 # Cancel Option
-@onready var cancel_action: HBoxContainer = $"CanvasLayer/Cancel Action"
-@onready var selected_label: Label = $"CanvasLayer/Cancel Action/Selected Label"
-@onready var action_name: Label = $"CanvasLayer/Cancel Action/Action Name"
-@onready var cancel_action_button: Button = $"CanvasLayer/Cancel Action/Cancel Action Button"
+@onready var cancel_action: HBoxContainer = $"UI Canvas Layer/Cancel Action"
+@onready var selected_label: Label = $"UI Canvas Layer/Cancel Action/Selected Label"
+@onready var action_name: Label = $"UI Canvas Layer/Cancel Action/Action Name"
+@onready var cancel_action_button: Button = $"UI Canvas Layer/Cancel Action/Cancel Action Button"
 
 # QTE
 @onready var qte_background: Sprite2D = $QTEBackground
 @onready var player_qte: Sprite2D = $Player_QTE
-
 @onready var qte_pressed: AnimatedSprite2D = $QTE_Pressed
 @onready var qte_icon_player: Sprite2D = $QTE_Icon_Player
 @onready var qte_icon_enemy: Sprite2D = $QTE_Icon_Enemy
-
 
 @onready var qte_start: Marker2D = $"QTE Start"
 @onready var qte_hit_early: Marker2D = $"QTE Hit Early"
@@ -73,35 +72,46 @@ extends Node
 @onready var qte_early_hit: Marker2D = $"QTE Early Hit"
 
 # Sabotage
-@onready var sabotage_player_size_down: Sprite2D = $"Sabotage Player Size Down"
-@onready var sabotage_enemy_size_down: Sprite2D = $"Sabotage Enemy Size Down"
-@onready var sabotage_enemy_attack_speed_up: Sprite2D = $"Sabotage Enemy Attack Speed Up"
-@onready var sabotage_player_attack_speed_up: Sprite2D = $"Sabotage Player Attack Speed Up"
-@onready var sabotage_player_attack_speed_up_label: Label = $"Sabotage Player Attack Speed Up Label"
-@onready var sabotage_enemy_attack_speed_up_label: Label = $"Sabotage Enemy Attack Speed Up Label"
-@onready var sabotage_enemy_size_down_label: Label = $"Sabotage Enemy Size Down Label"
-@onready var sabotage_player_size_down_label: Label = $"Sabotage Player Size Down Label"
+@onready var sabotage_ui: CanvasLayer = $"Sabotage UI"
+@onready var sabotage_player_size_down_label: Label = $"Sabotage UI/Sabotage Player Size Down Label"
+@onready var sabotage_enemy_size_down_label: Label = $"Sabotage UI/Sabotage Enemy Size Down Label"
+@onready var sabotage_enemy_attack_speed_up_label: Label = $"Sabotage UI/Sabotage Enemy Attack Speed Up Label"
+@onready var sabotage_player_attack_speed_up_label: Label = $"Sabotage UI/Sabotage Player Attack Speed Up Label"
+@onready var sabotage_player_size_down: Sprite2D = $"Sabotage UI/Sabotage Player Size Down Label/Sabotage Player Size Down"
+@onready var sabotage_enemy_size_down: Sprite2D = $"Sabotage UI/Sabotage Enemy Size Down Label/Sabotage Enemy Size Down"
+@onready var sabotage_enemy_attack_speed_up: Sprite2D = $"Sabotage UI/Sabotage Enemy Attack Speed Up Label/Sabotage Enemy Attack Speed Up"
+@onready var sabotage_player_attack_speed_up: Sprite2D = $"Sabotage UI/Sabotage Player Attack Speed Up Label/Sabotage Player Attack Speed Up"
 
+@onready var player_feedback_box: ColorRect = $"Player Feedback Box"
+@onready var player_feedback_label: Label = $"Player Feedback Box/Player Feedback Label"
+
+# Load constants into memory
 const EnemyPlayerAbilities = preload("res://scripts/enemy_player_abilities.gd")
 
+# Put battlers into arrays
 var all_battlers = []
 var player_battlers = []
 var enemy_battlers = []
 
+# keeping track of the current turn
 var current_turn : Node2D
 var current_turn_index : int
-var attack_type: String
-var ability_type: String
+
+# keeping track of action type
+var attack_type
+var ability_type
 
 # Variable for QTE Speed
-var qte_speed: int = EnemyPlayerAbilities.qte_speed
+var qte_speed: float = EnemyPlayerAbilities.qte_speed
 
 # Hold the attack sequence
 var qte_attack = []
+var qte_percentages = []
 
 # QTE attack Array
 var qte_queue = []
 
+# Count the frames, uses, and extra turn toggle
 var evade_frames: float = 0
 var parry_frames: float = 0
 var parry_count: int = 0
@@ -114,12 +124,15 @@ var active_sabotages = []
 # Player QTE Sabotage
 var qte_hit_early_pos
 
+# count number of player heal uses
+var player_heal_uses = 0
+
 func _ready() -> void:
 	set_process(false)
 	player_actions.hide()
 	battle_end_panel.hide()
-	
 	qte_hit_early_pos = qte_hit_early.position.x
+	
 	
 	player_battlers = get_tree().get_nodes_in_group("PlayerBattler")
 	enemy_battlers = get_tree().get_nodes_in_group("EnemyBattler")
@@ -128,11 +141,13 @@ func _ready() -> void:
 	
 	all_battlers.sort_custom(_sort_turn_order_ascending)
 	
+	# Connecting all the buttons
 	brace_button.pressed.connect(player_ability.bind("Brace"))
-	basic_attack_button.pressed.connect(_basic_attack)
-	triple_swipe_button.pressed.connect(player_skill_attack.bind("Triple Swipe Attack"))
-	charge_attack_button.pressed.connect(player_skill_attack.bind("Charge Attack"))
-	double_strike_button.pressed.connect(player_skill_attack.bind("Double Strike Attack"))
+	basic_attack_button.pressed.connect(player_attack.bind(EnemyPlayerAbilities.player_attacks.basic_attack))
+	triple_swipe_button.pressed.connect(player_attack.bind(EnemyPlayerAbilities.player_attacks.triple_strike_attack))
+	charge_attack_button.pressed.connect(player_attack.bind(EnemyPlayerAbilities.player_attacks.charge_attack))
+	double_strike_button.pressed.connect(player_attack.bind(EnemyPlayerAbilities.player_attacks.double_strike_attack))
+	
 	heal_button.pressed.connect(player_ability.bind("Heal"))
 	haste_button.pressed.connect(player_ability.bind("Haste"))
 	atk_up_button.pressed.connect(player_ability.bind("Attack Up"))
@@ -141,11 +156,13 @@ func _ready() -> void:
 	
 	cancel_action_button.pressed.connect(_cancel_button_pressed)
 	
+	# Adding player characters to turn list
 	for p in player_battlers:
 		p.turn_ended.connect(_next_turn)
 		p.dead.connect(_on_player_dead)
 		p.update_health.connect(_update_health_bar)
-		
+	
+	# Adding enemy characters to turn list
 	for e in enemy_battlers:
 		e.be_selected.connect(_attack_selected_enemy)
 		e.dead.connect(_on_enemy_dead)
@@ -168,9 +185,10 @@ func _process(delta: float) -> void:
 		evade_frames = 0
 		parry_frames = 0
 		qte_pressed.play("RESET")
-		if current_turn == enemy_battlers[0] and !enemy_battlers.is_empty():
-			_clear_sabotages()
-			_choose_sabotage(current_turn._get_hp(), current_turn._get_max_hp())
+		if !enemy_battlers.is_empty():
+			if current_turn == enemy_battlers[0]:
+				_clear_sabotages()
+				_choose_sabotage(current_turn._get_hp(), current_turn._get_max_hp())
 		_next_turn()
 	
 	if evade_frames > 0:
@@ -193,22 +211,25 @@ func _process(delta: float) -> void:
 			if _enemy_parry() == false:
 				print("Attack Failed")
 				qte_queue[0].free()
-				qte_queue.pop_at(0)
+				qte_queue.pop_front()
+				qte_percentages.pop_front()
 			
 		if Input.is_action_just_pressed("parry"):
 			qte_pressed.play("Parry")
 			parry_frames = 0.1
 			if qte_queue[0].position.x <= qte_hit_early.position.x and qte_queue[0].position.x >= qte_hit_late.position.x:
 				print("Attack Successful")
-				current_turn.start_attacking(enemy_battlers[0], qte_attack[0][1])
+				current_turn.start_attacking(enemy_battlers[0], qte_percentages[0])
 				qte_queue[0].free()
-				qte_queue.pop_at(0)
+				qte_queue.pop_front()
+				qte_percentages.pop_front()
 			elif qte_queue[0].position.x < qte_hit_early.position.x or qte_queue[0].position.x > qte_hit_late.position.x and qte_queue[0].position.x <= qte_early_hit.position.x:
 				if _enemy_parry() == false:
 					print("Attack Mistimed")
-					current_turn.start_attacking(enemy_battlers[0], (qte_attack[0][1] * 0.5))
+					current_turn.start_attacking(enemy_battlers[0], (qte_percentages[0] * 0.5))
 					qte_queue[0].free()
-					qte_queue.pop_at(0)
+					qte_queue.pop_front()
+					qte_percentages.pop_front()
 				
 		if parry_frames <= 0:
 			qte_pressed.play("RESET")
@@ -227,21 +248,24 @@ func _process(delta: float) -> void:
 				print("Parried!")
 				parry_count += 1
 				qte_queue[0].free()
-				qte_queue.pop_at(0)
+				qte_queue.pop_front()
+				qte_percentages.pop_front()
 			
 		if !qte_queue.is_empty() and is_instance_valid(qte_queue[0]):
 			# If the Player fails to redirect the enemy attack
 			if qte_queue[0].position.x > qte_hit_late.position.x and qte_queue[0].position.x <= qte_getting_hit_buffer.position.x:
 				print("Player Hit!")
-				enemy_battlers[0].start_attacking(player_battlers[0], qte_attack[0][1])
+				enemy_battlers[0].start_attacking(player_battlers[0], qte_percentages[0])
 				qte_queue[0].free()
-				qte_queue.pop_at(0)
+				qte_queue.pop_front()
+				qte_percentages.pop_front()
 				
 			# If the attack goes past the player
 			else:
 				if qte_queue[0].position.x <= qte_miss.position.x:
 					qte_queue[0].free()
-					qte_queue.pop_at(0)
+					qte_queue.pop_front()
+					qte_percentages.pop_front()
 		
 		# PLAYER INPUT HANDLERS
 		if evade_frames <= 0 and parry_frames <= 0:
@@ -250,9 +274,10 @@ func _process(delta: float) -> void:
 				qte_pressed.play("Block")
 				if qte_queue[0].position.x <= qte_hit_early.position.x and qte_queue[0].position.x >= qte_hit_late.position.x:
 					print("Blocked")
-					enemy_battlers[0].start_attacking(player_battlers[0], qte_attack[0][1] * 0.80)
+					enemy_battlers[0].start_attacking(player_battlers[0], qte_percentages[0] * 0.80)
 					qte_queue[0].free()
-					qte_queue.pop_at(0)
+					qte_queue.pop_front()
+					qte_percentages.pop_front()
 			
 			# Player Evade Handler
 			elif Input.is_action_just_pressed("evade"):
@@ -268,7 +293,7 @@ func _process(delta: float) -> void:
 				if !qte_pressed.animation == "RESET":
 					qte_pressed.play("RESET")
 	
-# Determines who goes
+# Determines who goes first
 func _sort_turn_order_ascending(battler_1, battler_2) -> bool:
 	if battler_1.stats_resource.turn_speed < battler_2.stats_resource.turn_speed:
 		return true
@@ -288,9 +313,11 @@ func _next_turn() -> void:
 	qte_pressed.hide()
 	player_qte.hide()
 	qte_target = ""
-	attack_type = ""
-	ability_type = ""
+	qte_percentages = []
+	qte_attack = []
 	parry_count = 0
+	if player_heal_uses >= EnemyPlayerAbilities.player_abilities.heal.max_uses:
+		heal_button.disabled = true
 	if player_actions.visible:
 		player_actions.hide()
 	if is_instance_valid(current_turn):
@@ -299,13 +326,14 @@ func _next_turn() -> void:
 		if parry_extra_turn and (current_turn == player_battlers[0]):
 			_clear_sabotages()
 			current_turn = all_battlers[current_turn_index]
-			print("Extra Turn!")
+			player_feedback_label.text = "Extra turn for Perfect Parry!"
 			parry_extra_turn = false
 		else:
 			current_turn_index = (current_turn_index + 1) % all_battlers.size()
 			current_turn = all_battlers[current_turn_index]
 		_update_turn()
 
+# Give
 func _give_iframes(type) -> void:
 	if type == "Parry":
 		if (active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_size_down) > 0):
@@ -318,15 +346,12 @@ func _give_iframes(type) -> void:
 		else:
 			evade_frames = EnemyPlayerAbilities.evade_iframes
 
-func _basic_attack() -> void:
-	attack_type = "Basic Attack"
-	_show_target_buttons()
-
+# Choose sabotages to be enabled
 func _choose_sabotage(health, max_health) -> void:
 	var sabotage_list = [EnemyPlayerAbilities.sabotage_enemy_attack_speed_up, EnemyPlayerAbilities.sabotage_enemy_size_down, EnemyPlayerAbilities.sabotage_player_attack_speed_up, EnemyPlayerAbilities.sabotage_player_size_down]
 	var rand = randi_range(0, sabotage_list.size()-1)
 	active_sabotages.append(sabotage_list[rand])
-	
+	sabotage_ui.show()
 	# If Health is 50% or lower, add another sabotage
 	if (health <= ceil((max_health/2))):
 		rand = randi_range(0, sabotage_list.size()-1)
@@ -336,6 +361,8 @@ func _choose_sabotage(health, max_health) -> void:
 	if (health <= ceil((max_health/4))):
 		rand = randi_range(0, sabotage_list.size()-1)
 		active_sabotages.append(sabotage_list[rand])
+	
+	# Show the icon for enabled sabotages
 	
 	if active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_attack_speed_up) > 0:
 		sabotage_enemy_attack_speed_up.show()
@@ -358,17 +385,10 @@ func _choose_sabotage(health, max_health) -> void:
 		sabotage_player_attack_speed_up_label.show()
 	print(active_sabotages)
 	
+# Clear active sabotages to be reshuffled
 func _clear_sabotages() -> void:
 	active_sabotages = []
-	
-	sabotage_enemy_attack_speed_up.hide()
-	sabotage_enemy_attack_speed_up_label.hide()
-	sabotage_player_size_down.hide()
-	sabotage_player_size_down_label.hide()
-	sabotage_enemy_size_down.hide()
-	sabotage_enemy_size_down_label.hide()
-	sabotage_player_attack_speed_up.hide()
-	sabotage_player_attack_speed_up_label.hide()
+	sabotage_ui.propagate_call("set_visible", [false])
 	
 func _use_ability() -> void:
 	_hide_target_buttons()
@@ -377,19 +397,16 @@ func _use_ability() -> void:
 	if (ability_type == "Brace"):
 		current_turn.start_brace()
 	elif (ability_type == "Heal"):
-		current_turn._heal_hp(EnemyPlayerAbilities.player_buff_heal_amount)
+		current_turn._heal_hp(EnemyPlayerAbilities.player_abilities.heal.heal_amount[0])
+		player_heal_uses += 1
 
 func _attack_selected_enemy(selected_enemy : Node2D) -> void:
 	_hide_target_buttons()
 	_hide_cancel_button()
-	if (attack_type == "Basic Attack"):
-		current_turn.basic_attack(selected_enemy)
-	elif (attack_type == "Triple Swipe Attack"):
-		_start_qte(selected_enemy, EnemyPlayerAbilities.player_attack_triple_strike)
-	elif (attack_type == "Charge Attack"):
-		_start_qte(selected_enemy, EnemyPlayerAbilities.player_attack_charge)
-	elif (attack_type == "Double Strike Attack"):
-		_start_qte(selected_enemy, EnemyPlayerAbilities.player_double_strike)
+	if (attack_type == EnemyPlayerAbilities.player_attacks.basic_attack):
+		current_turn.basic_attack(selected_enemy, EnemyPlayerAbilities.player_attacks.basic_attack.damage_percentage[0])
+	else:
+		_start_qte(selected_enemy)
 	
 # Handles the Enemy Parrying your Attacks and Dealing damage to you
 func _enemy_parry() -> bool:
@@ -399,18 +416,23 @@ func _enemy_parry() -> bool:
 			qte_queue[0].free()
 			qte_queue.pop_front()
 		enemy_battlers[0].start_attacking(player_battlers[0], 0.75)
-		print("Enemy Parry Attack!")
+		player_feedback_label.text = "The Enemy's Stance Parried your Attack!"
 		return true
 	else:
 		return false
 		
-func _start_qte(selected_enemy: Node2D, attack) -> void:
+func _start_qte(selected_enemy: Node2D) -> void:
 	if current_turn == enemy_battlers[0]:
+		player_feedback_label.text = "The enemy is attacking with %s!" % [attack_type.name]
 		await get_tree().create_timer(0.5).timeout
-	qte_attack = attack
+	
+	qte_attack = attack_type.attack_sequence
+	qte_percentages = attack_type.damage_percentage.duplicate(true)
 	qte_target = selected_enemy.get_name()
 	qte_background.show()
 	qte_pressed.show()
+	
+	# Sabotage Enablers
 	
 	# If Sabotage Player QTE Size Down is Active
 	if (active_sabotages.count(EnemyPlayerAbilities.sabotage_player_size_down) > 0):
@@ -430,11 +452,13 @@ func _start_qte(selected_enemy: Node2D, attack) -> void:
 	# If Sabotage Player Attack Speed Up is Active
 	elif active_sabotages.count(EnemyPlayerAbilities.sabotage_player_attack_speed_up) > 0 and qte_target == "EnemyBattler":
 		qte_speed = EnemyPlayerAbilities.qte_speed + EnemyPlayerAbilities.sabotage_player_attack_speed_up[1] * active_sabotages.count(EnemyPlayerAbilities.sabotage_player_attack_speed_up)
+	
 	else:
 		qte_speed = EnemyPlayerAbilities.qte_speed
 		
 	player_qte.show()
 			
+	# Spawn QTEs
 	for i in qte_attack:
 		if qte_target == "PlayerBattler":
 			var instance = qte_icon_enemy.duplicate(true)
@@ -442,20 +466,21 @@ func _start_qte(selected_enemy: Node2D, attack) -> void:
 			qte_queue.append(instance)
 			instance.scale *= (1 * EnemyPlayerAbilities.sabotage_enemy_size_down[1] ** active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_size_down))
 			instance.show()
-			instance.position = Vector2(qte_start.position.x + (i[0] * 100),qte_start.position.y)
+			instance.position = Vector2(qte_start.position.x + (i * 100),qte_start.position.y)
 		else:
 			var instance = qte_icon_player.duplicate(true)
 			add_child(instance)
 			qte_queue.append(instance)
 			instance.show()
-			instance.position = Vector2(qte_start.position.x + (i[0] * 100),qte_start.position.y)
+			instance.position = Vector2(qte_start.position.x + (i * 100),qte_start.position.y)
 	set_process(true)
 	
 # Attack Player	
-func _attack_random_player_battler(damage: int) -> void:
-	var enemy_attack_array = [EnemyPlayerAbilities.bandit_attack_charge, EnemyPlayerAbilities.bandit_attack_triple, EnemyPlayerAbilities.bandit_attack_two_offbeat]
-	var rand = randi_range(0, 2)
-	_start_qte(player_battlers[0], enemy_attack_array[rand])
+func _attack_random_player_battler() -> void:
+	var rand = EnemyPlayerAbilities.bandit_attacks.keys().pick_random()
+	var rand_attack = EnemyPlayerAbilities.bandit_attacks[rand]
+	attack_type = rand_attack
+	_start_qte(player_battlers[0])
 	
 func _on_enemy_dead(dead_enemy: Node2D) -> void:
 	enemy_battlers.erase(dead_enemy)
@@ -482,13 +507,16 @@ func _show_battle_end_panel(message : String) -> void:
 		player_actions.hide()
 
 # GUI CODE
-func player_skill_attack(skill):
+func player_attack(skill):
 	attack_type = skill
 	_show_target_buttons()
 
 func player_ability(ability):
-	ability_type = ability
-	_show_self_button()
+	if ability == "Heal" and ceil(current_turn._get_hp()) == current_turn._get_max_hp():
+		player_feedback_label.text = "Why Heal? You're at Max HP."
+	else:
+		ability_type = ability
+		_show_self_button()
 
 # Updates the Health Bars shown in the UI
 func _update_health_bar() -> void:
@@ -508,6 +536,10 @@ func _hide_self_button() -> void:
 
 func _show_self_button() -> void:
 	action_name.text = ability_type
+	if action_name.text == "Heal":
+		player_feedback_label.text = "Heal yourself for 200 HP. %d uses left." % [EnemyPlayerAbilities.player_abilities.heal.max_uses - player_heal_uses]
+	if action_name.text == "Brace":
+		player_feedback_label.text = "Brace yourself to reduce incoming damage by 20%"
 	player_actions.hide()
 	self_use_button.show()
 	_show_cancel_button()
@@ -515,9 +547,20 @@ func _show_self_button() -> void:
 func _show_target_buttons() -> void:
 	player_actions.hide()
 	enemy_use_button.show()
+	action_name.text = attack_type.name
 	for e in enemy_battlers:
 		e.show_select_button()
-	action_name.text = attack_type
+	# Text to tell the player information about their attack.
+	if attack_type == EnemyPlayerAbilities.player_attacks.basic_attack:
+		player_feedback_label.text = "Deal %d%% guaranteed attack damage." % [EnemyPlayerAbilities.player_attacks.basic_attack.damage_percentage[0] * 100]
+	else:
+		if attack_type.attack_sequence.size() == 1:
+			player_feedback_label.text = "Deals %d%% attack damage with 1 hit." % [attack_type.damage_percentage[0] * 100]
+		else:
+			var percentage_sum: float = 0
+			for i in attack_type.damage_percentage:
+				percentage_sum += i
+			player_feedback_label.text = "Deals up to %d%% attack damage with %d hits." % [ceil(percentage_sum * 100), attack_type.attack_sequence.size()]
 	_show_cancel_button()
 		
 func _hide_target_buttons() -> void:

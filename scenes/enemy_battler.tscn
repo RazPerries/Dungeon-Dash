@@ -203,6 +203,7 @@ libraries = {
 }
 
 [node name="HealthBar" type="ProgressBar" parent="."]
+visible = false
 offset_left = -60.9
 offset_top = -130.0
 offset_right = 59.1
