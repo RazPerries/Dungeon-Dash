@@ -187,16 +187,6 @@ text = "Abilities:"
 layout_mode = 2
 text = "Heal"
 
-[node name="Haste Button" type="Button" parent="UI Canvas Layer/Player Actions/Abilities"]
-visible = false
-layout_mode = 2
-text = "Haste"
-
-[node name="ATK UP Button" type="Button" parent="UI Canvas Layer/Player Actions/Abilities"]
-visible = false
-layout_mode = 2
-text = "ATK up"
-
 [node name="Player Health" type="VBoxContainer" parent="UI Canvas Layer"]
 offset_left = 17.0
 offset_top = 304.0
@@ -235,29 +225,6 @@ visible = false
 layout_mode = 2
 text = "Use On Self"
 
-[node name="Player Status Effect Label" type="VBoxContainer" parent="UI Canvas Layer"]
-visible = false
-offset_left = 23.0
-offset_top = 420.0
-offset_right = 132.0
-offset_bottom = 524.0
-
-[node name="Player Status Label" type="Label" parent="UI Canvas Layer/Player Status Effect Label"]
-layout_mode = 2
-text = "Status Effects:"
-
-[node name="Player Effect 1" type="Label" parent="UI Canvas Layer/Player Status Effect Label"]
-layout_mode = 2
-text = "Haste"
-
-[node name="Player Effect 2" type="Label" parent="UI Canvas Layer/Player Status Effect Label"]
-layout_mode = 2
-text = "ATK up"
-
-[node name="Player Effect 3" type="Label" parent="UI Canvas Layer/Player Status Effect Label"]
-layout_mode = 2
-text = "Haste"
-
 [node name="Enemy Health" type="VBoxContainer" parent="UI Canvas Layer"]
 offset_left = 679.0
 offset_top = 304.0
@@ -295,32 +262,6 @@ text = "HP: 50/100"
 visible = false
 layout_mode = 2
 text = "Use Against Enemy"
-
-[node name="Enemy Status Effect Label" type="VBoxContainer" parent="UI Canvas Layer"]
-offset_left = 679.0
-offset_top = 420.0
-offset_right = 879.0
-offset_bottom = 524.0
-
-[node name="Enemy Status Label" type="Label" parent="UI Canvas Layer/Enemy Status Effect Label"]
-visible = false
-layout_mode = 2
-text = "Status Effects:"
-
-[node name="Enemy Effect 1" type="Label" parent="UI Canvas Layer/Enemy Status Effect Label"]
-visible = false
-layout_mode = 2
-text = "Haste"
-
-[node name="Enemy Effect 2" type="Label" parent="UI Canvas Layer/Enemy Status Effect Label"]
-visible = false
-layout_mode = 2
-text = "ATK up"
-
-[node name="Enemy Effect 3" type="Label" parent="UI Canvas Layer/Enemy Status Effect Label"]
-visible = false
-layout_mode = 2
-text = "Haste"
 
 [node name="Cancel Action" type="HBoxContainer" parent="UI Canvas Layer"]
 visible = false

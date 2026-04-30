@@ -49,11 +49,6 @@ const player_abilities = {
 		"heal_amount": [200],
 		"max_uses":2,
 	},
-	"attack_up":{
-		"name": "Attack Up",
-		"attack_increase_percentage": [150],
-		"duration": 3,
-	},
 }
 
 # Bandit
@@ -86,19 +81,6 @@ const bandit_attacks = {
 	},
 }
 
-const bandit_abilities = {
-	"heal": {
-		"name": "Heal",
-		"heal_amount": [250],
-		"max_uses":2,
-	},
-	"attack_up":{
-		"name": "Attack Up",
-		"attack_increase_percentage": [120],
-		"duration": 2,
-	},
-}
-
 # Enemy Sabotages
 
 const sabotages = {
@@ -120,8 +102,3 @@ const sabotages = {
 		"size_down_percentage": 0.85,
 	}
 }
-
-const sabotage_player_attack_speed_up = ["Player Speed Up", 1.0]
-const sabotage_enemy_attack_speed_up = ["Enemy Speed Up", 1.0]
-const sabotage_enemy_size_down = ["Enemy Size Down", 0.85]
-const sabotage_player_size_down = ["Player Size Down", 0.85]

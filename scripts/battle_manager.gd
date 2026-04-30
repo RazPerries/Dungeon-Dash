@@ -20,8 +20,6 @@ extends Node
 # Abilities
 @onready var abilities: VBoxContainer = $"UI Canvas Layer/Player Actions/Abilities"
 @onready var heal_button: Button = $"UI Canvas Layer/Player Actions/Abilities/Heal Button"
-@onready var haste_button: Button = $"UI Canvas Layer/Player Actions/Abilities/Haste Button"
-@onready var atk_up_button: Button = $"UI Canvas Layer/Player Actions/Abilities/ATK UP Button"
 
 # Player Health
 @onready var player_health: VBoxContainer = $"UI Canvas Layer/Player Health"
@@ -30,26 +28,12 @@ extends Node
 @onready var player_hp_label: Label = $"UI Canvas Layer/Player Health/Player Health Bar/Player HP Label"
 @onready var self_use_button: Button = $"UI Canvas Layer/Player Health/Self Use Button"
 
-# Player Status Effects
-@onready var player_status_effect_label: VBoxContainer = $"UI Canvas Layer/Player Status Effect Label"
-@onready var player_status_label: Label = $"UI Canvas Layer/Player Status Effect Label/Player Status Label"
-@onready var player_effect_1: Label = $"UI Canvas Layer/Player Status Effect Label/Player Effect 1"
-@onready var player_effect_2: Label = $"UI Canvas Layer/Player Status Effect Label/Player Effect 2"
-@onready var player_effect_3: Label = $"UI Canvas Layer/Player Status Effect Label/Player Effect 3"
-
 # Enemy Health
 @onready var enemy_health: VBoxContainer = $"UI Canvas Layer/Enemy Health"
 @onready var enemy_name: Label = $"UI Canvas Layer/Enemy Health/Enemy Name"
 @onready var enemy_health_bar: ProgressBar = $"UI Canvas Layer/Enemy Health/Enemy Health Bar"
 @onready var enemy_hp_label: Label = $"UI Canvas Layer/Enemy Health/Enemy Health Bar/Enemy HP Label"
 @onready var enemy_use_button: Button = $"UI Canvas Layer/Enemy Health/Enemy Use Button"
-
-# Enemy Status Effects
-@onready var enemy_status_effect_label: VBoxContainer = $"UI Canvas Layer/Enemy Status Effect Label"
-@onready var enemy_status_label: Label = $"UI Canvas Layer/Enemy Status Effect Label/Enemy Status Label"
-@onready var enemy_effect_1: Label = $"UI Canvas Layer/Enemy Status Effect Label/Enemy Effect 1"
-@onready var enemy_effect_2: Label = $"UI Canvas Layer/Enemy Status Effect Label/Enemy Effect 2"
-@onready var enemy_effect_3: Label = $"UI Canvas Layer/Enemy Status Effect Label/Enemy Effect 3"
 
 # Cancel Option
 @onready var cancel_action: HBoxContainer = $"UI Canvas Layer/Cancel Action"
@@ -149,8 +133,6 @@ func _ready() -> void:
 	double_strike_button.pressed.connect(player_attack.bind(EnemyPlayerAbilities.player_attacks.double_strike_attack))
 	
 	heal_button.pressed.connect(player_ability.bind("Heal"))
-	haste_button.pressed.connect(player_ability.bind("Haste"))
-	atk_up_button.pressed.connect(player_ability.bind("Attack Up"))
 	
 	self_use_button.pressed.connect(_use_ability)
 	
@@ -325,6 +307,8 @@ func _next_turn() -> void:
 	if _check_for_battle_end() == false:
 		if parry_extra_turn and (current_turn == player_battlers[0]):
 			_clear_sabotages()
+			if !enemy_battlers.is_empty():
+				_choose_sabotage(enemy_battlers[0]._get_hp(),enemy_battlers[0]._get_max_hp())
 			current_turn = all_battlers[current_turn_index]
 			player_feedback_label.text = "Extra turn for Perfect Parry!"
 			parry_extra_turn = false
@@ -336,52 +320,53 @@ func _next_turn() -> void:
 # Give
 func _give_iframes(type) -> void:
 	if type == "Parry":
-		if (active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_size_down) > 0):
-			parry_frames = (EnemyPlayerAbilities.parry_iframes * (EnemyPlayerAbilities.sabotage_enemy_size_down[1] ** active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_size_down)))
+		if active_sabotages.has(EnemyPlayerAbilities.sabotages.enemy_size_down):
+			parry_frames = (EnemyPlayerAbilities.parry_iframes * (EnemyPlayerAbilities.sabotages.enemy_size_down.size_down_percentage ** active_sabotages.count(EnemyPlayerAbilities.sabotages.enemy_size_down)))
 		else:
 			parry_frames = EnemyPlayerAbilities.parry_iframes
 	if type == "Evade":
-		if (active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_size_down) > 0):
-			evade_frames = (EnemyPlayerAbilities.evade_iframes * (EnemyPlayerAbilities.sabotage_enemy_size_down[1] ** active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_size_down)))
+		if active_sabotages.has(EnemyPlayerAbilities.sabotages.enemy_size_down):
+			evade_frames = (EnemyPlayerAbilities.evade_iframes * (EnemyPlayerAbilities.sabotages.enemy_size_down.size_down_percentage ** active_sabotages.count(EnemyPlayerAbilities.sabotages.enemy_size_down)))
 		else:
 			evade_frames = EnemyPlayerAbilities.evade_iframes
 
 # Choose sabotages to be enabled
 func _choose_sabotage(health, max_health) -> void:
-	var sabotage_list = [EnemyPlayerAbilities.sabotage_enemy_attack_speed_up, EnemyPlayerAbilities.sabotage_enemy_size_down, EnemyPlayerAbilities.sabotage_player_attack_speed_up, EnemyPlayerAbilities.sabotage_player_size_down]
-	var rand = randi_range(0, sabotage_list.size()-1)
-	active_sabotages.append(sabotage_list[rand])
+	var rand
+	#for i in range(4):
+	rand = EnemyPlayerAbilities.sabotages.keys().pick_random()
+	active_sabotages.append(EnemyPlayerAbilities.sabotages[rand])
 	sabotage_ui.show()
 	# If Health is 50% or lower, add another sabotage
 	if (health <= ceil((max_health/2))):
-		rand = randi_range(0, sabotage_list.size()-1)
-		active_sabotages.append(sabotage_list[rand])
+		rand = EnemyPlayerAbilities.sabotages.keys().pick_random()
+		active_sabotages.append(EnemyPlayerAbilities.sabotages[rand])
 		
 	# If Health is 75% or lower, add another sabotage
 	if (health <= ceil((max_health/4))):
-		rand = randi_range(0, sabotage_list.size()-1)
-		active_sabotages.append(sabotage_list[rand])
+		rand = EnemyPlayerAbilities.sabotages.keys().pick_random()
+		active_sabotages.append(EnemyPlayerAbilities.sabotages[rand])
 	
 	# Show the icon for enabled sabotages
 	
-	if active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_attack_speed_up) > 0:
+	if active_sabotages.has(EnemyPlayerAbilities.sabotages.enemy_attack_speed_up):
 		sabotage_enemy_attack_speed_up.show()
-		sabotage_enemy_attack_speed_up_label.text = "x%d" % [active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_attack_speed_up)]
+		sabotage_enemy_attack_speed_up_label.text = "x%d" % [active_sabotages.count(EnemyPlayerAbilities.sabotages.enemy_attack_speed_up)]
 		sabotage_enemy_attack_speed_up_label.show()
 		
-	if active_sabotages.count(EnemyPlayerAbilities.sabotage_player_size_down) > 0:
+	if active_sabotages.has(EnemyPlayerAbilities.sabotages.player_size_down):
 		sabotage_player_size_down.show()
-		sabotage_player_size_down_label.text = "x%d" % [active_sabotages.count(EnemyPlayerAbilities.sabotage_player_size_down)]
+		sabotage_player_size_down_label.text = "x%d" % [active_sabotages.count(EnemyPlayerAbilities.sabotages.player_size_down)]
 		sabotage_player_size_down_label.show()
 		
-	if active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_size_down) > 0:
+	if active_sabotages.has(EnemyPlayerAbilities.sabotages.enemy_size_down):
 		sabotage_enemy_size_down.show()
-		sabotage_enemy_size_down_label.text = "x%d" % [active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_size_down)]
+		sabotage_enemy_size_down_label.text = "x%d" % [active_sabotages.count(EnemyPlayerAbilities.sabotages.enemy_size_down)]
 		sabotage_enemy_size_down_label.show()
 		
-	if active_sabotages.count(EnemyPlayerAbilities.sabotage_player_attack_speed_up) > 0:
+	if active_sabotages.has(EnemyPlayerAbilities.sabotages.player_attack_speed_up):
 		sabotage_player_attack_speed_up.show()
-		sabotage_player_attack_speed_up_label.text = "x%d" % [active_sabotages.count(EnemyPlayerAbilities.sabotage_player_attack_speed_up)]
+		sabotage_player_attack_speed_up_label.text = "x%d" % [active_sabotages.count(EnemyPlayerAbilities.sabotages.player_attack_speed_up)]
 		sabotage_player_attack_speed_up_label.show()
 	print(active_sabotages)
 	
@@ -435,23 +420,23 @@ func _start_qte(selected_enemy: Node2D) -> void:
 	# Sabotage Enablers
 	
 	# If Sabotage Player QTE Size Down is Active
-	if (active_sabotages.count(EnemyPlayerAbilities.sabotage_player_size_down) > 0):
-		var scaling: float = (1 * EnemyPlayerAbilities.sabotage_player_size_down[1] ** active_sabotages.count(EnemyPlayerAbilities.sabotage_player_size_down))
+	if active_sabotages.has(EnemyPlayerAbilities.sabotages.player_size_down):
+		var scaling: float = (1 * EnemyPlayerAbilities.sabotages.player_size_down.size_down_percentage ** active_sabotages.count(EnemyPlayerAbilities.sabotages.player_size_down))
 		player_qte.scale = Vector2(scaling,scaling)
 		qte_pressed.scale = Vector2(scaling,scaling)
-		qte_hit_early.position.x -= (qte_hit_early_pos - player_qte.position.x) * ((1 - EnemyPlayerAbilities.sabotage_player_size_down[1]) * active_sabotages.count(EnemyPlayerAbilities.sabotage_player_size_down))
+		qte_hit_early.position.x -= (qte_hit_early_pos - player_qte.position.x) * ((1 - EnemyPlayerAbilities.sabotages.player_size_down.size_down_percentage) * active_sabotages.count(EnemyPlayerAbilities.sabotages.player_size_down))
 	else:
 		player_qte.scale = Vector2(1,1)
 		qte_pressed.scale = Vector2(1,1)
 		qte_hit_early.position.x = qte_hit_early_pos
 	
 	# If Sabotage Enemy Attack Speed Up is Active
-	if active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_attack_speed_up) > 0 and qte_target == "PlayerBattler":
-		qte_speed = EnemyPlayerAbilities.qte_speed + EnemyPlayerAbilities.sabotage_enemy_attack_speed_up[1] * active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_attack_speed_up)
+	if active_sabotages.has(EnemyPlayerAbilities.sabotages.enemy_attack_speed_up) and qte_target == "PlayerBattler":
+		qte_speed = EnemyPlayerAbilities.qte_speed + EnemyPlayerAbilities.sabotages.enemy_attack_speed_up.speed_up * active_sabotages.count(EnemyPlayerAbilities.sabotages.enemy_attack_speed_up)
 
 	# If Sabotage Player Attack Speed Up is Active
-	elif active_sabotages.count(EnemyPlayerAbilities.sabotage_player_attack_speed_up) > 0 and qte_target == "EnemyBattler":
-		qte_speed = EnemyPlayerAbilities.qte_speed + EnemyPlayerAbilities.sabotage_player_attack_speed_up[1] * active_sabotages.count(EnemyPlayerAbilities.sabotage_player_attack_speed_up)
+	elif active_sabotages.has(EnemyPlayerAbilities.sabotages.player_attack_speed_up) and qte_target == "EnemyBattler":
+		qte_speed = EnemyPlayerAbilities.qte_speed + EnemyPlayerAbilities.sabotages.player_attack_speed_up.speed_up * active_sabotages.count(EnemyPlayerAbilities.sabotages.player_attack_speed_up)
 	
 	else:
 		qte_speed = EnemyPlayerAbilities.qte_speed
@@ -464,7 +449,7 @@ func _start_qte(selected_enemy: Node2D) -> void:
 			var instance = qte_icon_enemy.duplicate(true)
 			add_child(instance)
 			qte_queue.append(instance)
-			instance.scale *= (1 * EnemyPlayerAbilities.sabotage_enemy_size_down[1] ** active_sabotages.count(EnemyPlayerAbilities.sabotage_enemy_size_down))
+			instance.scale *= (1 * EnemyPlayerAbilities.sabotages.enemy_size_down.size_down_percentage ** active_sabotages.count(EnemyPlayerAbilities.sabotages.enemy_size_down))
 			instance.show()
 			instance.position = Vector2(qte_start.position.x + (i * 100),qte_start.position.y)
 		else:
